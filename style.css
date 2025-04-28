@@ -1,32 +1,32 @@
 body {
-  margin: 0;
-  background: url('https://ibb.co/s9XL8hb3') no-repeat center center cover;
-backdrop-filter: blur(8px);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Cairo', sans-serif;
-  color: white;
+    margin: 0;
+    background: url('https://ibb.co/s9XL8hb3') no-repeat center center/cover;
+    backdrop-filter: blur(8px);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cairo', sans-serif;
+    color: white;
 }
 
 .main-container {
-  text-align: center;
+    text-align: center;
 }
 
 .btn {
-  display: inline-block;
-  padding: 20px 40px;
-  font-size: 24px;
-  background-color: #B17F06;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  margin-top: 20px;
-  text-decoration: none;
-  transition: background 0.3s;
+    display: inline-block;
+    padding: 20px 40px;
+    font-size: 24px;
+    background-color: #B17F06;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-decoration: none;
+    transition: background 0.3s;
 }
 
 .btn:hover {
-  background-color: #8a6504;
+    background-color: #8a6504;
 }
