@@ -1,4 +1,4 @@
-const webhookURL = 'WEBHOOK_LINK'; // رابط ويبهوك ديسكورد
+const webhookURL = 'https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4'; // رابط ويبهوك ديسكورد
 
 document.getElementById('identityForm').addEventListener('submit', async (e) => {
     e.preventDefault();
