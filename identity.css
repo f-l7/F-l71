@@ -1,41 +1,39 @@
 body {
-  margin: 0;
-  background-color: black;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Cairo', sans-serif;
-  color: white;
+    margin: 0;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Cairo', sans-serif;
 }
 
 .form-container {
-  text-align: center;
+    text-align: center;
+}
+
+input, .btn {
+    display: block;
+    width: 300px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
 }
 
 input {
-  width: 300px;
-  padding: 10px;
-  margin: 10px 0;
-  font-size: 18px;
-  border-radius: 8px;
-  border: none;
-  text-align: center;
+    background: #333;
+    color: white;
 }
 
 .btn {
-  display: inline-block;
-  padding: 15px 30px;
-  font-size: 20px;
-  background-color: #B17F06;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: background 0.3s;
+    background: #B17F06;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 .btn:hover {
-  background-color: #8a6504;
+    background: #8a6504;
 }
