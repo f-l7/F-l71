@@ -3,167 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الهوية الوطني | FalcoN LiFe</title>
-    <style>
-        :root {
-            --main-green: #245C36;
-            --gold: #D4AF37;
-            --light-green: #E8F5E9;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: white;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 30px;
-            background: linear-gradient(145deg, #f9f9f9, #ffffff);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(36, 92, 54, 0.1);
-            border: 1px solid var(--light-green);
-        }
-        
-        h1 {
-            color: var(--main-green);
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 28px;
-            position: relative;
-        }
-        
-        h1::after {
-            content: "";
-            display: block;
-            width: 100px;
-            height: 3px;
-            background: var(--gold);
-            margin: 10px auto;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--main-green);
-            font-weight: bold;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            transition: all 0.3s;
-            font-size: 16px;
-        }
-        
-        input:focus, select:focus {
-            border-color: var(--main-green);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(36, 92, 54, 0.2);
-        }
-        
-        button {
-            background-color: var(--main-green);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: block;
-            width: 100%;
-            margin-top: 20px;
-        }
-        
-        button:hover {
-            background-color: #1a472a;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-        
-        #idCard {
-            margin-top: 40px;
-            padding: 25px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            border: 2px solid var(--light-green);
-            text-align: right;
-        }
-        
-        #idCard h2 {
-            color: var(--main-green);
-            margin-top: 0;
-            border-bottom: 2px solid var(--gold);
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-        
-        #idCard p {
-            margin: 15px 0;
-            font-size: 16px;
-        }
-        
-        #idCard span {
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        
-        .accept {
-            background-color: var(--main-green);
-        }
-        
-        .reject {
-            background-color: #e74c3c;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: var(--main-green);
-            color: white;
-            margin-top: 50px;
-            font-size: 14px;
-        }
-        
-        /* تأثيرات إضافية */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .container {
-            animation: fadeIn 0.5s ease-out;
-        }
-    </style>
+    <title>نظام الهوية | FalcoN LiFe</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>نظام الهوية الوطني | FalcoN LiFe</h1>
+        <h1><span class="falcon">FalcoN LiFe</span> نظام الهوية الرقمية</h1>
         
         <form id="identityForm">
             <div class="form-group">
                 <label for="name">الاسم الكامل:</label>
-                <input type="text" id="name" required placeholder="أدخل اسمك كما في الوثيقة">
+                <input type="text" id="name" required placeholder="كما في الوثيقة الرسمية">
             </div>
             
             <div class="form-group">
@@ -172,12 +22,11 @@
             </div>
             
             <div class="form-group">
-                <label for="country">الجنسية:</label>
+                <label for="country">البلد:</label>
                 <select id="country" required>
                     <option value="">-- اختر --</option>
-                    <option value="السعودية">لوس انجلوس</option>
-                    <option value="الإمارات">بليتو</option>
-                    <option value="الكويت">ساندي شور</option>
+                    <option value=لوس سانتوس">لوس انجلوس</option>
+                    <option value="ساندي شور">ساندي شور</option>
                 </select>
             </div>
             
@@ -187,61 +36,39 @@
             </div>
             
             <div class="form-group">
-                <label for="discord">ايدي دسكورد:</label>
+                <label for="discord">ايدي دسكورد: <span class="required">*</span></label>
                 <input type="text" id="discord" required placeholder="Username#1234">
-                <small style="color: var(--main-green); display: block; margin-top: 5px;">* مطلوب للتحقق</small>
+                <small class="hint">(بدون هذا الحقل سيتم رفض الطلب تلقائيًا)</small>
             </div>
             
             <button type="button" onclick="submitForm()">إنشاء الهوية</button>
         </form>
         
-        <div id="idCard" style="display: none;">
-            <h2>هويتك الرقمية</h2>
-            <p><strong>الاسم:</strong> <span id="idName"></span></p>
-            <p><strong>العمر:</strong> <span id="idAge"></span></p>
-            <p><strong>الجنسية:</strong> <span id="idCountry"></span></p>
-            <p><strong>تاريخ الميلاد:</strong> <span id="idBirthdate"></span></p>
-            <p><strong>ايدي دسكورد:</strong> <span id="idDiscord"></span></p>
+        <div id="idCard" class="hidden">
+            <div class="header">
+                <h2>هوية رقمية</h2>
+                <img src="logo.png" alt="FalcoN LiFe Logo" width="60">
+            </div>
+            
+            <div class="info">
+                <p><span>الاسم:</span> <span id="idName"></span></p>
+                <p><span>العمر:</span> <span id="idAge"></span></p>
+                <p><span>البلد:</span> <span id="idCountry"></span></p>
+                <p><span>تاريخ الميلاد:</span> <span id="idBirthdate"></span></p>
+                <p><span>الديسكورد:</span> <span id="idDiscord"></span></p>
+            </div>
             
             <div class="actions">
-                <button onclick="approveID()" class="accept">✅ قبول</button>
-                <button onclick="rejectID()" class="reject">❌ رفض</button>
+                <button onclick="approveID()" class="accept">✅ قبول الهوية</button>
+                <button onclick="rejectID()" class="reject">❌ رفض الطلب</button>
             </div>
         </div>
     </div>
     
     <footer>
-        © <span id="year"></span> FalcoN LiFe - جميع الحقوق محفوظة
+        <p>© <span id="year"></span> <span class="falcon">FalcoN LiFe</span> - جميع الحقوق محفوظة</p>
     </footer>
     
-    <script>
-        // عرض السنة الحالية
-        document.getElementById('year').textContent = new Date().getFullYear();
-        
-        // وظائف النظام
-        function submitForm() {
-            // ... (نفس الكود السابق)
-        }
-        
-        function validateDiscordID(id) {
-            // ... (نفس الكود السابق)
-        }
-        
-        function sendToDiscord(data) {
-            // ... (نفس الكود السابق)
-        }
-        
-        function showIDCard(data) {
-            // ... (نفس الكود السابق)
-        }
-        
-        function approveID() {
-            // ... (نفس الكود السابق)
-        }
-        
-        function rejectID() {
-            // ... (نفس الكود السابق)
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
