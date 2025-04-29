@@ -1,5 +1,5 @@
 async function sendToDiscord(data) {
-    const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+    const webhookURL = 'https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4';
     
     const payload = {
         content: `طلب هوية جديد:\nالاسم: ${data.name}\nالعمر: ${data.age}\nالبلد: ${data.country}\nتاريخ الميلاد: ${data.birthdate}`,
