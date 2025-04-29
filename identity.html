@@ -30,9 +30,9 @@
                 <label for="country">البلد *</label>
                 <select id="country" required>
                     <option value="">-- اختر --</option>
-                    <option value="لوس سانتوس">لوس سانتوس</option>
-                    <option value="ساندي شور">ساندي شور</option>
-                    <option value="بليتو">بليتو</option>
+                    <option value="السعودية">المملكة العربية السعودية</option>
+                    <option value="الإمارات">الإمارات العربية المتحدة</option>
+                    <option value="الكويت">دولة الكويت</option>
                 </select>
             </div>
             
@@ -47,12 +47,14 @@
                        pattern="^[^#]+#\d{4}$" title="مثال: User#1234">
             </div>
             
-            <button type="button" id="submitBtn" class="submit-btn">إنشاء الهوية</button>
+            <button type="button" id="submitBtn" class="submit-btn">
+                <span id="btnText">إنشاء الهوية</span>
+                <span id="loader" class="loader hidden"></span>
+            </button>
             
-            <div id="errorMessage" class="error-message hidden"></div>
+            <div id="errorMsg" class="error-message hidden"></div>
+            <div id="successMsg" class="success-message hidden"></div>
         </form>
-        
-        <div id="result" class="hidden"></div>
     </div>
     
     <script src="script.js"></script>
