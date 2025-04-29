@@ -3,81 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء هوية جديدة | FalcoN LiFe</title>
+    <title>إنشاء هوية - FalcoN LiFe</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="id-container">
-        <nav class="id-nav">
-            <a href="index.html" class="back-link">← الرجوع للرئيسية</a>
-            <img src="assets/logo-sm.png" alt="Logo" class="nav-logo">
-        </nav>
+    <div class="id-form-container">
+        <div class="form-header">
+            <a href="index.html" class="back-button">← الرجوع</a>
+            <h1>استمارة الهوية الرقمية</h1>
+        </div>
 
-        <main class="id-form-container">
-            <h1 class="form-title">استمارة الهوية الرقمية</h1>
-            
-            <form id="identityForm" class="id-form">
+        <form id="identityForm">
+            <div class="input-group">
+                <label for="fullName">الاسم الكامل</label>
+                <input type="text" id="fullName" required>
+            </div>
+
+            <div class="input-row">
                 <div class="input-group">
-                    <label for="fullName">الاسم الكامل</label>
-                    <input type="text" id="fullName" required placeholder="كما في الوثيقة الرسمية">
+                    <label for="age">العمر</label>
+                    <input type="number" id="age" required min="12">
                 </div>
-
-                <div class="input-row">
-                    <div class="input-group">
-                        <label for="age">العمر</label>
-                        <input type="number" id="age" required min="12" max="99">
-                    </div>
-                    <div class="input-group">
-                        <label for="gender">الجنس</label>
-                        <select id="gender" required>
-                            <option value="">اختر</option>
-                            <option value="ذكر">ذكر</option>
-                            <option value="أنثى">أنثى</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="input-group">
-                    <label for="nationality">الجنسية</label>
-                    <select id="nationality" required>
-                        <option value="">اختر الجنسية</option>
+                    <label for="country">البلد</label>
+                    <select id="country" required>
+                        <option value="">اختر</option>
                         <option value="السعودية">🇸🇦 السعودية</option>
                         <option value="الإمارات">🇦🇪 الإمارات</option>
-                        <option value="الكويت">🇰🇼 الكويت</option>
                     </select>
                 </div>
-
-                <div class="input-group">
-                    <label for="birthdate">تاريخ الميلاد</label>
-                    <input type="date" id="birthdate" required>
-                </div>
-
-                <div class="input-group discord-input">
-                    <label for="discordId">ايدي دسكورد <span class="required-field">*</span></label>
-                    <input type="text" id="discordId" required placeholder="Username#1234">
-                    <p class="input-hint">مطلوب للتحقق من الهوية</p>
-                </div>
-
-                <div class="form-actions">
-                <button type="button" id="submitBtn" class="btn">
-                         إنشاء الهوية
-                </button>
-                </div>
-            </form>
-        </main>
-
-        <div id="successModal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-modal">×</span>
-                <h2>تم الاستلام بنجاح!</h2>
-                <p>تم إرسال طلبك إلى مسؤولي FalcoN LiFe</p>
-                <p>سيتم مراجعته وإعلامك عبر الديسكورد</p>
-                <div class="modal-actions">
-                    <button id="modalCloseBtn" class="modal-btn">حسناً</button>
-                </div>
             </div>
-        </div>
+
+            <div class="input-group">
+                <label for="birthdate">تاريخ الميلاد</label>
+                <input type="date" id="birthdate" required>
+            </div>
+
+            <div class="input-group">
+                <label for="discord">ايدي دسكورد <span class="required">*</span></label>
+                <input type="text" id="discord" required placeholder="Username#1234">
+            </div>
+
+            <button type="button" id="submitBtn" class="submit-button">
+                <span class="button-text">إنشاء الهوية</span>
+            </button>
+        </form>
     </div>
 
     <script src="script.js"></script>
