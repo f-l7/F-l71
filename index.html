@@ -3,64 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الهوية | FalcoN LiFe</title>
+    <title>FalcoN LiFe - الصفحة الرئيسية</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #245C36, #1A472A);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .features {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            width: 250px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1><span class="falcon">FalcoN LiFe</span> نظام الهوية الرقمية</h1>
+        <header>
+            <h1><span class="falcon">FalcoN LiFe</span> نظام الهويات الرقمية</h1>
+        </header>
         
-        <form id="identityForm">
-            <div class="form-group">
-                <label for="name">الاسم الكامل:</label>
-                <input type="text" id="name" required placeholder="كما في الوثيقة الرسمية">
-            </div>
-            
-            <div class="form-group">
-                <label for="age">العمر:</label>
-                <input type="number" id="age" required min="10" max="100">
-            </div>
-            
-            <div class="form-group">
-                <label for="country">البلد:</label>
-                <select id="country" required>
-                    <option value="">-- اختر --</option>
-                    <option value=لوس سانتوس">لوس انجلوس</option>
-                    <option value="ساندي شور">ساندي شور</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="birthdate">تاريخ الميلاد:</label>
-                <input type="date" id="birthdate" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="discord">ايدي دسكورد: <span class="required">*</span></label>
-                <input type="text" id="discord" required placeholder="Username#1234">
-                <small class="hint">(بدون هذا الحقل سيتم رفض الطلب تلقائيًا)</small>
-            </div>
-            
-            <button type="button" onclick="submitForm()">إنشاء الهوية</button>
-        </form>
+        <div class="hero">
+            <h2>مرحباً بكم في نظام هوية FalcoN LiFe</h2>
+            <p>أنشئ هويتك الرقمية بسهولة وأمان</p>
+            <a href="identity.html" class="btn">إنشاء هوية جديدة</a>
+        </div>
         
-        <div id="idCard" class="hidden">
-            <div class="header">
-                <h2>هوية رقمية</h2>
-                <img src="logo.png" alt="FalcoN LiFe Logo" width="60">
+        <div class="features">
+            <div class="feature-card">
+                <h3>⚡ سريع</h3>
+                <p>إنشاء الهوية في دقائق معدودة</p>
             </div>
-            
-            <div class="info">
-                <p><span>الاسم:</span> <span id="idName"></span></p>
-                <p><span>العمر:</span> <span id="idAge"></span></p>
-                <p><span>البلد:</span> <span id="idCountry"></span></p>
-                <p><span>تاريخ الميلاد:</span> <span id="idBirthdate"></span></p>
-                <p><span>الديسكورد:</span> <span id="idDiscord"></span></p>
+            <div class="feature-card">
+                <h3>🔒 آمن</h3>
+                <p>بياناتك محمية بتقنيات التشفير</p>
             </div>
-            
-            <div class="actions">
-                <button onclick="approveID()" class="accept">✅ قبول الهوية</button>
-                <button onclick="rejectID()" class="reject">❌ رفض الطلب</button>
+            <div class="feature-card">
+                <h3>🌐 متوافق</h3>
+                <p>يعمل على جميع الأجهزة</p>
             </div>
         </div>
     </div>
@@ -69,6 +62,8 @@
         <p>© <span id="year"></span> <span class="falcon">FalcoN LiFe</span> - جميع الحقوق محفوظة</p>
     </footer>
     
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
