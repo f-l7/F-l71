@@ -1,118 +1,55 @@
-// تكوين النظام
-const CONFIG = {
-    DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4", // استبدل برابطك
-    ADMIN_ROLE_ID: "1366184760283758755" // (اختياري)
-};
-
-// عناصر DOM
-const elements = {
-    form: document.getElementById('identityForm'),
-    submitBtn: document.getElementById('submitBtn'),
-    loadingSpinner: document.querySelector('.loading-spinner'),
-    modal: document.getElementById('successModal')
-};
-
-// إرسال النموذج
-elements.form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+async function submitForm() {
+    console.log("تم النقر على الزر!");
     
-    toggleLoading(true);
-    
-    const formData = {
-        fullName: document.getElementById('fullName').value.trim(),
+    const data = {
+        name: document.getElementById('name').value,
         age: document.getElementById('age').value,
-        gender: document.getElementById('gender').value,
-        nationality: document.getElementById('nationality').value,
+        country: document.getElementById('country').value,
         birthdate: document.getElementById('birthdate').value,
-        discordId: document.getElementById('discordId').value.trim(),
-        submissionDate: new Date().toISOString()
+        discord: document.getElementById('discord').value
     };
 
-    if (!validateForm(formData)) {
-        toggleLoading(false);
+    // تحقق من البيانات
+    if (!data.discord || !data.discord.includes('#')) {
+        alert("❗ يجب إدخال ايدي دسكورد صحيح (مثال: User#1234)");
         return;
     }
 
-    const success = await sendToDiscord(formData);
-    
-    if (success) {
-        showSuccessModal();
-        elements.form.reset();
-    } else {
-        alert("حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً");
-    }
-    
-    toggleLoading(false);
-});
+    // عرض حالة التحميل
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = "جاري الإرسال...";
 
-// التحقق من البيانات
-function validateForm(data) {
-    if (!data.discordId || !/^[^#]+#\d{4}$/.test(data.discordId)) {
-        alert("❗ يرجى إدخال ايدي دسكورد صحيح (مثال: User#1234)");
-        return false;
-    }
-    return true;
-}
-
-// إرسال إلى ديسكورد
-async function sendToDiscord(data) {
     try {
-        const response = await fetch(CONFIG.DISCORD_WEBHOOK, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("WEBHOOK_URL_HERE", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+                content: "**طلب جديد**",
                 embeds: [{
-                    title: "طلب هوية جديد - FalcoN LiFe",
-                    description: `**تم استلام طلب جديد من:** ${data.discordId}`,
-                    color: 0x245C36,
+                    title: "طلب هوية",
                     fields: [
-                        { name: "الاسم", value: data.fullName, inline: true },
-                        { name: "العمر", value: data.age, inline: true },
-                        { name: "الجنس", value: data.gender, inline: true },
-                        { name: "الجنسية", value: data.nationality },
-                        { name: "تاريخ الميلاد", value: data.birthdate },
-                        { name: "وقت الطلب", value: new Date(data.submissionDate).toLocaleString() }
+                        { name: "الاسم", value: data.name },
+                        { name: "الديسكورد", value: data.discord }
                     ],
-                    footer: { 
-                        text: "FalcoN LiFe ID System", 
-                        icon_url: "https://i.imgur.com/xyz123.png" 
-                    }
+                    color: 5814783
                 }]
             })
         });
 
-        return response.ok;
+        if (response.ok) {
+            alert("✅ تم الإرسال بنجاح للديسكورد!");
+        } else {
+            throw new Error("فشل الإرسال");
+        }
     } catch (error) {
-        console.error("Error sending to Discord:", error);
-        return false;
+        console.error(error);
+        alert("❌ حدث خطأ: " + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "إنشاء الهوية";
     }
 }
 
-// عرض النتيجة
-function showSuccessModal() {
-    elements.modal.classList.remove('hidden');
-    document.getElementById('modalCloseBtn').addEventListener('click', () => {
-        elements.modal.classList.add('hidden');
-    });
-}
-
-// تحميل مؤقت
-function toggleLoading(isLoading) {
-    if (isLoading) {
-        elements.submitBtn.disabled = true;
-        elements.loadingSpinner.style.display = 'inline-block';
-        document.querySelector('.btn-text').textContent = 'جاري الإرسال...';
-    } else {
-        elements.submitBtn.disabled = false;
-        elements.loadingSpinner.style.display = 'none';
-        document.querySelector('.btn-text').textContent = 'إنشاء الهوية';
-    }
-}
-
-// إغلاق المودال
-document.querySelector('.close-modal').addEventListener('click', () => {
-    elements.modal.classList.add('hidden');
-});
-
-// عرض السنة
-document.getElementById('current-year').textContent = new Date().getFullYear();
+// ربط الحدث مباشرة
+document.getElementById('submitBtn').addEventListener('click', submitForm);
