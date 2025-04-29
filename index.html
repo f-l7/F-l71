@@ -3,48 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalcoN LiFe - نظام الهويات المميز</title>
+    <title>FalcoN LiFe - نظام الهويات الوطني</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #245C36, #1A472A);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        .long-text {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+    </style>
 </head>
 <body>
-    <div class="hero-section">
-        <div class="glass-card">
-            <img src="assets/logo.png" alt="FalcoN LiFe" class="main-logo">
-            <h1>نظام الهوية الرقمي <span class="gold-text">FalcoN LiFe</span></h1>
-            <p class="slogan">الحل الآمن لإدارة الهويات الرقمية</p>
+    <div class="hero">
+        <h1>مرحباً بكم في نظام الهوية الرقمية</h1>
+        <p>منصة FalcoN LiFe المتكاملة لإصدار الهويات المعتمدة</p>
+        <a href="identity.html" class="btn">إنشاء هوية جديدة</a>
+    </div>
+
+    <div class="content-section">
+        <div class="long-text">
+            <h2>عن نظامنا</h2>
+            <p>نظام الهوية الرقمية من FalcoN LiFe هو الحل الأمثل لإدارة الهويات بشكل آمن وفعال. تأسس هذا النظام عام 2023 بهدف توفير خدمة مميزة للمواطنين والمقيمين في المملكة العربية السعودية ودول الخليج العربي.</p>
             
-            <div class="cta-buttons">
-                <a href="identity.html" class="cta-button">إنشاء هوية جديدة</a>
-                <a href="#features" class="ghost-button">المميزات</a>
-            </div>
+            <h3>لماذا نختار FalcoN LiFe؟</h3>
+            <p>لأننا نقدم حلولاً متكاملة تتميز بما يلي:</p>
+            <ul>
+                <li>تشفير متقدم بمعايير AES-256</li>
+                <li>سرعة في إنهاء المعاملات لا تتجاوز 5 دقائق</li>
+                <li>توافق كامل مع أنظمة الهواتف الذكية</li>
+                <li>دعم فني على مدار الساعة</li>
+            </ul>
+            
+            <h3>رؤيتنا</h3>
+            <p>نسعى لأن نكون الرواد في مجال حلول الهوية الرقمية في المنطقة، من خلال توفير نظام سهل الاستخدام وآمن في نفس الوقت، مع الحفاظ على أعلى معايير الخصوصية وحماية البيانات.</p>
+            
+            <h3>الأسئلة الشائعة</h3>
+            <p><strong>س: كم تستغرق عملية الموافقة؟</strong><br>
+            ج: عادةً ما تتم خلال 24-48 ساعة عمل.</p>
+            
+            <p><strong>س: هل يمكنني تعديل البيانات بعد الإرسال؟</strong><br>
+            ج: نعم، خلال 24 ساعة من تقديم الطلب.</p>
         </div>
     </div>
 
-    <section id="features" class="features-section">
-        <div class="feature-card">
-            <div class="icon">🛡️</div>
-            <h3>حماية متقدمة</h3>
-            <p>تشفير AES-256 لحماية بياناتك</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">⚡</div>
-            <h3>سرعة فائقة</h3>
-            <p>إنهاء الإجراءات في دقائق</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">📱</div>
-            <h3>متعدد المنصات</h3>
-            <p>يعمل على جميع الأجهزة</p>
-        </div>
-    </section>
-
     <footer>
-        <p>© <span id="current-year"></span> FalcoN LiFe. جميع الحقوق محفوظة</p>
+        <p>© <span id="year"></span> FalcoN LiFe. جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
