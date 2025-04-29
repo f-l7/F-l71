@@ -3,72 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع الهوية الوطني</title>
+    <title>نظام الهوية الوطني | FalcoN LiFe</title>
     <style>
+        :root {
+            --main-green: #245C36;
+            --gold: #D4AF37;
+            --light-green: #E8F5E9;
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
+            background-color: white;
             margin: 0;
             padding: 0;
             color: #333;
         }
-        header {
-            background-color: #245C36;
-            color: white;
-            padding: 20px;
+        
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 30px;
+            background: linear-gradient(145deg, #f9f9f9, #ffffff);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(36, 92, 54, 0.1);
+            border: 1px solid var(--light-green);
+        }
+        
+        h1 {
+            color: var(--main-green);
             text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
         }
-        .content {
-            padding: 20px;
-            line-height: 1.8;
-            max-width: 900px;
-            margin: 0 auto;
+        
+        h1::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+            margin: 10px auto;
         }
-        .btn {
-            display: inline-block;
-            background-color: #D4AF37;
-            color: #245C36;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--main-green);
             font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--main-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(36, 92, 54, 0.2);
+        }
+        
+        button {
+            background-color: var(--main-green);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
             margin-top: 20px;
         }
+        
+        button:hover {
+            background-color: #1a472a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        #idCard {
+            margin-top: 40px;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 2px solid var(--light-green);
+            text-align: right;
+        }
+        
+        #idCard h2 {
+            color: var(--main-green);
+            margin-top: 0;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        
+        #idCard p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        
+        #idCard span {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .accept {
+            background-color: var(--main-green);
+        }
+        
+        .reject {
+            background-color: #e74c3c;
+        }
+        
         footer {
-            background-color: #245C36;
-            color: white;
             text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            padding: 20px;
+            background: var(--main-green);
+            color: white;
+            margin-top: 50px;
+            font-size: 14px;
+        }
+        
+        /* تأثيرات إضافية */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>موقع الهوية الوطني</h1>
-        <p>نظام إصدار الهويات الرقمية</p>
-    </header>
-    
-    <div class="content">
-        <h2>مرحبًا بكم في نظام الهوية الرقمية</h2>
+    <div class="container">
+        <h1>نظام الهوية الوطني | FalcoN LiFe</h1>
         
-        <p>هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.</p>
+        <form id="identityForm">
+            <div class="form-group">
+                <label for="name">الاسم الكامل:</label>
+                <input type="text" id="name" required placeholder="أدخل اسمك كما في الوثيقة">
+            </div>
+            
+            <div class="form-group">
+                <label for="age">العمر:</label>
+                <input type="number" id="age" required min="10" max="100">
+            </div>
+            
+            <div class="form-group">
+                <label for="country">الجنسية:</label>
+                <select id="country" required>
+                    <option value="">-- اختر --</option>
+                    <option value="السعودية">لوس انجلوس</option>
+                    <option value="الإمارات">بليتو</option>
+                    <option value="الكويت">ساندي شور</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="birthdate">تاريخ الميلاد:</label>
+                <input type="date" id="birthdate" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="discord">ايدي دسكورد:</label>
+                <input type="text" id="discord" required placeholder="Username#1234">
+                <small style="color: var(--main-green); display: block; margin-top: 5px;">* مطلوب للتحقق</small>
+            </div>
+            
+            <button type="button" onclick="submitForm()">إنشاء الهوية</button>
+        </form>
         
-        <p>إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.</p>
-        
-        <p>ومن هنا وجب على المصمم أن يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا علاقة له بالموضوع الذى يتحدث عنه التصميم فيظهر بشكل لا يليق.</p>
-        
-        <p>هذا النص يمكن أن يتم تركيبه على أي تصميم دون مشكلة فلن يبدو وكأنه نص منسوخ، غير منظم، غير منسق، أو حتى غير مفهوم. لأنه مازال نصاً بديلاً ومؤقتاً.</p>
-        
-        <p>هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.</p>
-        
-        <a href="identity.html" class="btn">إنشاء هوية جديدة</a>
+        <div id="idCard" style="display: none;">
+            <h2>هويتك الرقمية</h2>
+            <p><strong>الاسم:</strong> <span id="idName"></span></p>
+            <p><strong>العمر:</strong> <span id="idAge"></span></p>
+            <p><strong>الجنسية:</strong> <span id="idCountry"></span></p>
+            <p><strong>تاريخ الميلاد:</strong> <span id="idBirthdate"></span></p>
+            <p><strong>ايدي دسكورد:</strong> <span id="idDiscord"></span></p>
+            
+            <div class="actions">
+                <button onclick="approveID()" class="accept">✅ قبول</button>
+                <button onclick="rejectID()" class="reject">❌ رفض</button>
+            </div>
+        </div>
     </div>
     
     <footer>
-        © 2023 FalcoN LiFe - جميع الحقوق محفوظة
+        © <span id="year"></span> FalcoN LiFe - جميع الحقوق محفوظة
     </footer>
+    
+    <script>
+        // عرض السنة الحالية
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // وظائف النظام
+        function submitForm() {
+            // ... (نفس الكود السابق)
+        }
+        
+        function validateDiscordID(id) {
+            // ... (نفس الكود السابق)
+        }
+        
+        function sendToDiscord(data) {
+            // ... (نفس الكود السابق)
+        }
+        
+        function showIDCard(data) {
+            // ... (نفس الكود السابق)
+        }
+        
+        function approveID() {
+            // ... (نفس الكود السابق)
+        }
+        
+        function rejectID() {
+            // ... (نفس الكود السابق)
+        }
+    </script>
 </body>
 </html>
