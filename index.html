@@ -3,66 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalcoN LiFe - الصفحة الرئيسية</title>
+    <title>FalcoN LiFe - نظام الهويات</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .hero {
-            background: linear-gradient(135deg, #245C36, #1A472A);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        .features {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .feature-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            width: 250px;
-            text-align: center;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
             <h1><span class="falcon">FalcoN LiFe</span> نظام الهويات الرقمية</h1>
+            <img src="assets/logo.png" alt="Logo" width="80" class="logo">
         </header>
         
         <div class="hero">
-            <h2>مرحباً بكم في نظام هوية FalcoN LiFe</h2>
-            <p>أنشئ هويتك الرقمية بسهولة وأمان</p>
-            <a href="identity.html" class="btn">إنشاء هوية جديدة</a>
+            <h2>أنشئ هويتك الرقمية خلال دقيقتين!</h2>
+            <p>نظام آمن وسريع ومتوافق مع جميع الأجهزة</p>
+            <a href="identity.html" class="btn">بدء إنشاء الهوية</a>
         </div>
         
         <div class="features">
             <div class="feature-card">
-                <h3>⚡ سريع</h3>
-                <p>إنشاء الهوية في دقائق معدودة</p>
+                <div class="icon">🔐</div>
+                <h3>حماية كاملة</h3>
+                <p>تشفير متقدم لحماية بياناتك الشخصية</p>
             </div>
             <div class="feature-card">
-                <h3>🔒 آمن</h3>
-                <p>بياناتك محمية بتقنيات التشفير</p>
+                <div class="icon">⚡</div>
+                <h3>سرعة فائقة</h3>
+                <p>لا تحتاج أكثر من 3 خطوات بسيطة</p>
             </div>
             <div class="feature-card">
-                <h3>🌐 متوافق</h3>
-                <p>يعمل على جميع الأجهزة</p>
+                <div class="icon">📱</div>
+                <h3>متعدد المنصات</h3>
+                <p>يعمل على الهواتف والأجهزة اللوحية</p>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>© <span id="year"></span> <span class="falcon">FalcoN LiFe</span> - جميع الحقوق محفوظة</p>
+        <p>© <span id="year"></span> <span class="falcon">FalcoN LiFe</span>. جميع الحقوق محفوظة</p>
     </footer>
-    
+
     <script>
+        // عرض السنة الحالية تلقائياً
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
