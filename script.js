@@ -1,100 +1,85 @@
+// متغيرات النظام
+const WEBHOOK_URL = "WEBHOOK_URL_HERE"; // استبدل برابط الويب هوك
+
 // دالة إنشاء الهوية
-function submitForm() {
-    // جمع البيانات من النموذج
-    const formData = {
+async function submitForm() {
+    const data = {
         name: document.getElementById('name').value.trim(),
         age: document.getElementById('age').value,
         country: document.getElementById('country').value,
         birthdate: document.getElementById('birthdate').value,
-        discord: document.getElementById('discord').value.trim()
+        discord: document.getElementById('discord').value.trim(),
+        ip: await getIP() // للحصول على IP المستخدم (اختياري)
     };
 
     // التحقق من البيانات
-    if (!validateForm(formData)) return;
+    if (!validateData(data)) return;
 
-    // إرسال البيانات إلى ويب هوك دسكورد
-    sendToDiscord(formData);
-
-    // عرض بطاقة الهوية
-    showIDCard(formData);
+    // إرسال إلى الديسكورد
+    const success = await sendToDiscord(data);
+    
+    if (success) {
+        alert("تم إرسال طلبك بنجاح! سيتم مراجعته من قبل المسؤول");
+        document.getElementById('identityForm').reset();
+    } else {
+        alert("حدث خطأ! حاول مرة أخرى لاحقاً");
+    }
 }
 
 // التحقق من صحة البيانات
-function validateForm(data) {
-    if (!data.name || data.name.length < 3) {
-        alert('⚠️ الاسم يجب أن يحتوي على 3 أحرف على الأقل');
+function validateData(data) {
+    if (!data.discord || !/^.+#\d{4}$/.test(data.discord)) {
+        alert("❗ اكتب ايدي دسكورد صحيح (مثال: User#1234)");
         return false;
     }
-
-    if (!data.discord || !data.discord.includes('#')) {
-        alert('⚠️ يجب إدخال ايدي دسكورد صالح (مثال: User#1234)');
-        return false;
-    }
-
-    if (!data.country) {
-        alert('⚠️ يرجى اختيار الجنسية');
-        return false;
-    }
-
     return true;
 }
 
-// إرسال البيانات إلى دسكورد
+// إرسال البيانات إلى الديسكورد
 async function sendToDiscord(data) {
-    const webhookUrl = "https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4"; // استبدل برابط الويب هوك
-
     try {
-        const response = await fetch(webhookUrl, {
+        const response = await fetch(WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 embeds: [{
-                    title: "طلب هوية جديد | FalcoN LiFe",
-                    color: 0x245C36,
+                    title: "طلب هوية جديد - يحتاج مراجعة",
+                    description: "**تفاصيل الطلب:**",
+                    color: 0xFFA500, // لون برتقالي للتنبيه
                     fields: [
                         { name: "الاسم", value: data.name, inline: true },
                         { name: "العمر", value: data.age, inline: true },
-                        { name: "الجنسية", value: data.country, inline: true },
+                        { name: "البلد", value: data.country, inline: true },
                         { name: "تاريخ الميلاد", value: data.birthdate },
-                        { name: "ايدي دسكورد", value: data.discord }
+                        { name: "ايدي دسكورد", value: data.discord },
+                        { name: "IP", value: data.ip || "غير متاح" }
                     ],
                     timestamp: new Date(),
-                    footer: { text: "FalcoN LiFe ID System" }
+                    footer: { 
+                        text: "FalcoN LiFe ID System", 
+                        icon_url: "https://i.imgur.com/ABCD123.png" // استبدل بصورة شعارك
+                    }
                 }]
             })
         });
 
-        if (!response.ok) throw new Error('فشل في الإرسال');
+        return response.ok;
     } catch (error) {
-        console.error('Error sending to Discord:', error);
+        console.error("Error sending to Discord:", error);
+        return false;
     }
 }
 
-// عرض بطاقة الهوية
-function showIDCard(data) {
-    document.getElementById('idName').textContent = data.name;
-    document.getElementById('idAge').textContent = data.age;
-    document.getElementById('idCountry').textContent = data.country;
-    document.getElementById('idBirthdate').textContent = data.birthdate;
-    document.getElementById('idDiscord').textContent = data.discord;
-
-    document.getElementById('idCard').classList.remove('hidden');
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-}
-
-// الموافقة على الهوية
-function approveID() {
-    alert('✅ تم قبول الهوية بنجاح!\nسيتم الآن إنشاء البطاقة الرقمية');
-    // هنا يمكنك إضافة كود لإنشاء صورة الهوية
-}
-
-// رفض الهوية
-function rejectID() {
-    if (confirm('⚠️ هل أنت متأكد من رفض هذه الهوية؟')) {
-        document.getElementById('idCard').classList.add('hidden');
-        document.getElementById('identityForm').reset();
+// الحصول على IP المستخدم (اختياري)
+async function getIP() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch {
+        return null;
     }
 }
 
-// عرض السنة الحالية في الفوتر
+// عرض السنة في الفوتر
 document.getElementById('year').textContent = new Date().getFullYear();
