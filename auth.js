@@ -1,4 +1,27 @@
 // تكامل OAuth مع Discord
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء هوية - FalcoN LiFe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="falcon">FalcoN LiFe</span> إنشاء هوية جديدة</h1>
+            <a href="index.html" class="back-btn">← الرجوع للصفحة الرئيسية</a>
+        </header>
+        
+        <!-- نفس محتوى نموذج الهوية السابق -->
+        <!-- ... -->
+        
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
 document.getElementById('discordLogin').addEventListener('click', () => {
     const clientId = '1365741528378773626';
     const redirectUri = encodeURIComponent('https://f-l7.github.io/F-l7/');
