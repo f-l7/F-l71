@@ -1,7 +1,7 @@
 // تكامل OAuth مع Discord
 document.getElementById('discordLogin').addEventListener('click', () => {
-    const clientId = 'YOUR_DISCORD_CLIENT_ID';
-    const redirectUri = encodeURIComponent('YOUR_REDIRECT_URI');
+    const clientId = '1365741528378773626';
+    const redirectUri = encodeURIComponent('https://f-l7.github.io/F-l7/');
     const scope = encodeURIComponent('identify email');
     
     window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
