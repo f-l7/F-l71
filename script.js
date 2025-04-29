@@ -1,7 +1,7 @@
 // تكوين النظام
 const CONFIG = {
-    DISCORD_WEBHOOK: "WEBHOOK_URL_HERE", // استبدل برابطك
-    ADMIN_ROLE_ID: "ADMIN_ROLE_ID_HERE" // (اختياري)
+    DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4", // استبدل برابطك
+    ADMIN_ROLE_ID: "1366184760283758755" // (اختياري)
 };
 
 // عناصر DOM
