@@ -1,132 +1,124 @@
-/* الأساسيات */
 :root {
-    --primary: #245C36;
-    --secondary: #1A472A;
-    --accent: #D4AF37;
-    --text: #333;
-    --light-bg: #f9f9f9;
+    --main-green: #245C36;
+    --gold: #D4AF37;
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
 }
 
 body {
     font-family: 'Tajawal', sans-serif;
-    background-color: var(--light-bg);
-    color: var(--text);
     margin: 0;
+    padding: 0;
     line-height: 1.6;
+    color: #333;
 }
 
-/* الصفحة الرئيسية */
-.hero-section {
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                url('assets/bg-pattern.jpg') center/cover;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-}
-
-.glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 3rem;
-    border-radius: 15px;
+.container {
     max-width: 800px;
     margin: 0 auto;
-    border: 1px solid rgba(255,255,255,0.2);
+    padding: 20px;
 }
 
-.main-logo {
-    width: 120px;
-    margin-bottom: 1rem;
-}
-
-.gold-text {
-    color: var(--accent);
-}
-
-.slogan {
-    font-size: 1.2rem;
-    margin: 1rem 0 2rem;
-    opacity: 0.9;
-}
-
-.cta-buttons {
+header {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--light-gray);
 }
 
-.cta-button {
-    background: var(--accent);
-    color: var(--secondary);
-    padding: 0.8rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
+h1 {
+    color: var(--main-green);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
     font-weight: bold;
-    transition: all 0.3s;
 }
 
-.ghost-button {
-    border: 2px solid white;
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s;
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
 }
 
-/* صفحة الهوية */
-.id-form-container {
-    max-width: 700px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.form-header {
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.input-group {
-    margin-bottom: 1.5rem;
-}
-
-.input-row {
-    display: flex;
-    gap: 1rem;
-}
-
-.submit-button {
-    background: var(--primary);
+.submit-btn {
+    background-color: var(--main-green);
     color: white;
     border: none;
-    padding: 1rem;
+    padding: 15px;
     width: 100%;
-    border-radius: 8px;
-    font-size: 1.1rem;
+    border-radius: 6px;
+    font-size: 18px;
     cursor: pointer;
     transition: all 0.3s;
 }
 
-.submit-button:hover {
-    background: var(--secondary);
+.submit-btn:hover {
+    background-color: #1a472a;
 }
 
-/* التكيف مع الشاشات الصغيرة */
-@media (max-width: 768px) {
-    .glass-card {
-        padding: 2rem 1rem;
-        width: 95%;
-    }
-    
-    .input-row {
-        flex-direction: column;
-        gap: 0;
-    }
+.submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#result {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#result.success {
+    background-color: #e8f5e9;
+    color: #245C36;
+}
+
+#result.error {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.hidden {
+    display: none;
+}
+
+.back-btn {
+    color: var(--main-green);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--gold);
+    color: var(--main-green);
+    padding: 12px 30px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--main-green);
+    color: white;
+    margin-top: 50px;
 }
