@@ -3,60 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء هوية جديدة - FalcoN LiFe</title>
+    <title>إنشاء هوية - FalcoN LiFe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>استمارة الهوية الرقمية</h1>
-            <a href="index.html" class="back-btn">← الرجوع</a>
-        </header>
-        
-        <form id="identityForm">
-            <div class="form-group">
-                <label for="name">الاسم الكامل (ثلاثي) *</label>
-                <input type="text" id="name" required pattern="[\u0600-\u06FF\s]{3,}" 
-                       title="يجب إدخال اسم عربي صحيح (ثلاثي على الأقل)" 
-                       placeholder="مثال: أحمد محمد علي">
-            </div>
-            
-            <div class="form-group">
-                <label for="age">العمر *</label>
-                <input type="number" id="age" required min="12" max="120">
-            </div>
-            
-            <div class="form-group">
-                <label for="country">البلد *</label>
-                <select id="country" required>
-                    <option value="">-- اختر --</option>
-                    <option value="السعودية">المملكة العربية السعودية</option>
-                    <option value="الإمارات">الإمارات العربية المتحدة</option>
-                    <option value="الكويت">دولة الكويت</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="birthdate">تاريخ الميلاد *</label>
-                <input type="date" id="birthdate" required max="">
-            </div>
-            
-            <div class="form-group">
-                <label for="discord">ايدي دسكورد *</label>
-                <input type="text" id="discord" required placeholder="Username#1234" 
-                       pattern="^[^#]+#\d{4}$" title="مثال: User#1234">
-            </div>
-            
-            <button type="button" id="submitBtn" class="submit-btn">
-                <span id="btnText">إنشاء الهوية</span>
-                <span id="loader" class="loader hidden"></span>
-            </button>
-            
-            <div id="errorMsg" class="error-message hidden"></div>
-            <div id="successMsg" class="success-message hidden"></div>
-        </form>
+    <div class="id-container">
+        <nav class="nav-bar">
+            <a href="index.html" class="back-button">← الرجوع للرئيسية</a>
+            <h1>إنشاء هوية جديدة</h1>
+        </nav>
+
+        <main class="id-form-container">
+            <form id="identityForm">
+                <div class="input-group">
+                    <label for="fullName">الاسم الكامل (ثلاثي) *</label>
+                    <input type="text" id="fullName" required>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="age">العمر *</label>
+                        <input type="number" id="age" required min="12">
+                    </div>
+                    <div class="input-group">
+                        <label for="country">البلد *</label>
+                        <select id="country" required>
+                            <option value="">اختر</option>
+                            <option value="السعودية">السعودية</option>
+                            <option value="الإمارات">الإمارات</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="birthdate">تاريخ الميلاد *</label>
+                    <input type="date" id="birthdate" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="discord">ايدي دسكورد *</label>
+                    <input type="text" id="discord" required placeholder="Username#1234">
+                </div>
+
+                <button type="button" id="submitBtn" class="submit-btn">
+                    <span id="btnText">إنشاء الهوية</span>
+                    <span id="loader" class="loader hidden"></span>
+                </button>
+            </form>
+
+            <div id="resultMessage" class="hidden"></div>
+        </main>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
