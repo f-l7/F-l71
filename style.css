@@ -3,14 +3,8 @@
     --gold: #D4AF37;
     --white: #FFFFFF;
     --light-gray: #F5F5F5;
-}
-
-body {
-    font-family: 'Tajawal', sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    color: #333;
+    --error-red: #d32f2f;
+    --error-bg: #fce4ec;
 }
 
 .container {
@@ -71,6 +65,40 @@ input, select {
     cursor: not-allowed;
 }
 
+.error-message {
+    color: var(--error-red);
+    background-color: var(--error-bg);
+    padding: 15px;
+    border-radius: 6px;
+    margin: 20px 0;
+    border: 1px solid #f8bbd0;
+}
+
+.hidden {
+    display: none;
+}
+
+.back-btn {
+    color: var(--main-green);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 #result {
     padding: 15px;
     margin-top: 20px;
@@ -86,39 +114,4 @@ input, select {
 #result.error {
     background-color: #ffebee;
     color: #c62828;
-}
-
-.hidden {
-    display: none;
-}
-
-.back-btn {
-    color: var(--main-green);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.btn {
-    display: inline-block;
-    background-color: var(--gold);
-    color: var(--main-green);
-    padding: 12px 30px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: all 0.3s;
-}
-
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: var(--main-green);
-    color: white;
-    margin-top: 50px;
 }
