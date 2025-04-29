@@ -1,9 +1,7 @@
-// تحديث السنة تلقائياً
-document.getElementById('year').textContent = new Date().getFullYear();
-
 // دالة إنشاء الهوية
 function submitForm() {
-    const data = {
+    // جمع البيانات من النموذج
+    const formData = {
         name: document.getElementById('name').value.trim(),
         age: document.getElementById('age').value,
         country: document.getElementById('country').value,
@@ -12,34 +10,39 @@ function submitForm() {
     };
 
     // التحقق من البيانات
-    if (!validateData(data)) return;
+    if (!validateForm(formData)) return;
 
-    // إرسال البيانات (مثال باستخدام ويب هوك)
-    sendToDiscord(data);
-    
+    // إرسال البيانات إلى ويب هوك دسكورد
+    sendToDiscord(formData);
+
     // عرض بطاقة الهوية
-    showIDCard(data);
+    showIDCard(formData);
 }
 
 // التحقق من صحة البيانات
-function validateData(data) {
-    if (!data.discord || !data.discord.includes('#')) {
-        alert('❗ يجب إدخال ايدي دسكورد صالح (مثال: User#1234)');
-        return false;
-    }
-    
+function validateForm(data) {
     if (!data.name || data.name.length < 3) {
-        alert('❗ الاسم يجب أن يكون أكثر من 3 أحرف');
+        alert('⚠️ الاسم يجب أن يحتوي على 3 أحرف على الأقل');
         return false;
     }
-    
+
+    if (!data.discord || !data.discord.includes('#')) {
+        alert('⚠️ يجب إدخال ايدي دسكورد صالح (مثال: User#1234)');
+        return false;
+    }
+
+    if (!data.country) {
+        alert('⚠️ يرجى اختيار الجنسية');
+        return false;
+    }
+
     return true;
 }
 
-// إرسال إلى ديسكورد
+// إرسال البيانات إلى دسكورد
 async function sendToDiscord(data) {
-    const webhookUrl = "https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4"; // استبدل برابط الويب هوك
-    
+    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL"; // استبدل برابط الويب هوك
+
     try {
         const response = await fetch(webhookUrl, {
             method: 'POST',
@@ -51,7 +54,7 @@ async function sendToDiscord(data) {
                     fields: [
                         { name: "الاسم", value: data.name, inline: true },
                         { name: "العمر", value: data.age, inline: true },
-                        { name: "البلد", value: data.country, inline: true },
+                        { name: "الجنسية", value: data.country, inline: true },
                         { name: "تاريخ الميلاد", value: data.birthdate },
                         { name: "ايدي دسكورد", value: data.discord }
                     ],
@@ -60,10 +63,10 @@ async function sendToDiscord(data) {
                 }]
             })
         });
-        
-        if (!response.ok) throw new Error('فشل الإرسال');
+
+        if (!response.ok) throw new Error('فشل في الإرسال');
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error sending to Discord:', error);
     }
 }
 
@@ -74,14 +77,14 @@ function showIDCard(data) {
     document.getElementById('idCountry').textContent = data.country;
     document.getElementById('idBirthdate').textContent = data.birthdate;
     document.getElementById('idDiscord').textContent = data.discord;
-    
+
     document.getElementById('idCard').classList.remove('hidden');
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 // الموافقة على الهوية
 function approveID() {
-    alert('✅ تم قبول الهوية بنجاح');
+    alert('✅ تم قبول الهوية بنجاح!\nسيتم الآن إنشاء البطاقة الرقمية');
     // هنا يمكنك إضافة كود لإنشاء صورة الهوية
 }
 
@@ -92,3 +95,6 @@ function rejectID() {
         document.getElementById('identityForm').reset();
     }
 }
+
+// عرض السنة الحالية في الفوتر
+document.getElementById('year').textContent = new Date().getFullYear();
