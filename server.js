@@ -11,11 +11,11 @@ app.post('/api/auth/discord', async (req, res) => {
     try {
         // استبدل هذه القيم بمعلومات تطبيقك في Discord
         const params = new URLSearchParams();
-        params.append('client_id', 'YOUR_CLIENT_ID');
-        params.append('client_secret', 'YOUR_CLIENT_SECRET');
+        params.append('client_id', '1365741528378773626');
+        params.append('client_secret', '-Z69OO3nsCd9d6mJLsqMyJBVgaT9KuHs');
         params.append('grant_type', 'authorization_code');
         params.append('code', code);
-        params.append('redirect_uri', 'YOUR_REDIRECT_URI');
+        params.append('redirect_uri', 'https://f-l7.github.io/F-l7/');
         params.append('scope', 'identify email');
         
         const response = await axios.post('https://discord.com/api/oauth2/token', params, {
