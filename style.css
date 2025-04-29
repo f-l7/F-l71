@@ -1,47 +1,113 @@
+/* المتغيرات */
 :root {
     --main-green: #245C36;
     --gold: #D4AF37;
     --white: #FFFFFF;
-    --light-gray: #F5F5F5;
+    --light-gray: #F8F8F8;
+    --dark-gray: #333333;
+}
+
+/* الأساسيات */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: 'Tajawal', Arial, sans-serif;
+    font-family: 'Tajawal', sans-serif;
     background-color: var(--light-gray);
+    color: var(--dark-gray);
+    line-height: 1.6;
+    padding: 0;
     margin: 0;
-    padding: 20px;
-    color: #333;
 }
 
 .container {
-    max-width: 650px;
-    margin: 30px auto;
-    padding: 30px;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(36, 92, 54, 0.15);
-    border: 1px solid rgba(36, 92, 54, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-h1 {
-    color: var(--main-green);
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-    position: relative;
+/* الهيدر */
+header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    padding: 20px 0;
+    border-bottom: 2px solid rgba(36, 92, 54, 0.1);
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--main-green);
+    font-size: 28px;
 }
 
 .falcon {
     color: var(--gold);
-    font-weight: bold;
+    font-weight: 700;
 }
 
+.logo {
+    height: auto;
+}
+
+/* الصفحة الرئيسية */
+.hero {
+    background: linear-gradient(135deg, var(--main-green), #1A472A);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card .icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    color: var(--main-green);
+    margin-bottom: 10px;
+}
+
+/* صفحة الهوية */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 label {
@@ -52,23 +118,22 @@ label {
 }
 
 .required {
-    color: red;
+    color: #E74C3C;
     font-size: 18px;
 }
 
 .hint {
     color: #666;
-    font-size: 12px;
+    font-size: 13px;
     display: block;
     margin-top: 5px;
 }
 
 input, select {
     width: 100%;
-    padding: 12px 15px;
+    padding: 14px;
     border: 2px solid #DDD;
     border-radius: 8px;
-    box-sizing: border-box;
     font-size: 16px;
     transition: all 0.3s;
 }
@@ -79,49 +144,70 @@ input:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(36, 92, 54, 0.1);
 }
 
-button {
+.btn {
+    display: inline-block;
     background-color: var(--main-green);
     color: white;
+    padding: 14px 28px;
     border: none;
-    padding: 14px;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    width: 100%;
-    margin-top: 15px;
+    cursor: pointer;
+    text-decoration: none;
     transition: all 0.3s;
+    text-align: center;
 }
 
-button:hover {
+.btn:hover {
     background-color: #1A472A;
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
+.back-btn {
+    color: var(--main-green);
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* بطاقة الهوية */
 #idCard {
-    margin-top: 30px;
-    padding: 25px;
-    background: linear-gradient(135deg, #F8F8F8, #FFFFFF);
+    margin-top: 40px;
+    padding: 30px;
+    background: white;
     border-radius: 10px;
-    border: 1px solid rgba(36, 92, 54, 0.2);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(36, 92, 54, 0.1);
 }
 
-.header {
+#idCard .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
     border-bottom: 2px solid var(--gold);
-    padding-bottom: 10px;
 }
 
-.info p {
-    margin: 15px 0;
-    font-size: 16px;
+#idCard h2 {
+    color: var(--main-green);
+    margin: 0;
 }
 
-.info span:first-child {
+#idCard .info {
+    padding: 10px 0;
+}
+
+#idCard .info p {
+    margin: 18px 0;
+    font-size: 17px;
+}
+
+#idCard .info span:first-child {
     font-weight: bold;
     color: var(--main-green);
     display: inline-block;
@@ -131,41 +217,53 @@ button:hover {
 .actions {
     display: flex;
     gap: 15px;
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
 .accept {
     background-color: var(--main-green);
+    flex: 1;
 }
 
 .reject {
     background-color: #E74C3C;
+    flex: 1;
 }
 
 .hidden {
     display: none;
 }
 
+/* الفوتر */
 footer {
     text-align: center;
-    margin-top: 40px;
-    padding: 15px;
+    padding: 25px;
+    margin-top: 50px;
     color: var(--main-green);
-    font-size: 14px;
+    font-size: 15px;
+    border-top: 1px solid rgba(36, 92, 54, 0.1);
 }
 
-footer .falcon {
-    color: var(--main-green);
-    font-weight: bold;
-}
-
-/* Responsive Design */
+/* التكيف مع الشاشات الصغيرة */
 @media (max-width: 768px) {
     .container {
-        padding: 20px;
+        padding: 15px;
     }
     
-    h1 {
-        font-size: 24px;
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .hero h2 {
+        font-size: 26px;
+    }
+    
+    .feature-card {
+        width: 100%;
+    }
+    
+    .actions {
+        flex-direction: column;
     }
 }
