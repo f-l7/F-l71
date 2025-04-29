@@ -1,50 +1,33 @@
-const webhookURL = 'https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4'; // رابط ويبهوك ديسكورد
-
-document.getElementById('identityForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const fullname = e.target.fullname.value;
-    const age = e.target.age.value;
-    const nationality = e.target.nationality.value;
-    const birthdate = e.target.birthdate.value;
-
+async function sendToDiscord(data) {
+    const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+    
     const payload = {
+        content: `طلب هوية جديد:\nالاسم: ${data.name}\nالعمر: ${data.age}\nالبلد: ${data.country}\nتاريخ الميلاد: ${data.birthdate}`,
         embeds: [{
-            title: "طلب هوية جديدة 📄",
-            color: 3447003,
+            title: "تفاصيل الهوية",
+            color: 0x00ff00,
             fields: [
-                { name: "الاسم الثلاثي", value: fullname, inline: true },
-                { name: "العمر", value: age, inline: true },
-                { name: "الجنسية", value: nationality, inline: true },
-                { name: "تاريخ الميلاد", value: birthdate, inline: true }
-            ]
-        }],
-        components: [{
-            type: 1,
-            components: [
-                {
-                    type: 2,
-                    label: "قبول ✅",
-                    style: 3,
-                    custom_id: "accept_identity"
-                },
-                {
-                    type: 2,
-                    label: "رفض ❌",
-                    style: 4,
-                    custom_id: "reject_identity"
-                }
+                { name: "الاسم", value: data.name },
+                { name: "العمر", value: data.age },
+                { name: "البلد", value: data.country },
+                { name: "تاريخ الميلاد", value: data.birthdate }
             ]
         }]
     };
-
-    await fetch(webhookURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    });
-
-    alert("تم إرسال الهوية بنجاح ✅");
-});
+    
+    try {
+        const response = await fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+        
+        if (!response.ok) {
+            console.error('Error sending to Discord');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
