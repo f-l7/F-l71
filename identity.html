@@ -2,21 +2,189 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>إنشاء هوية</title>
-    <link rel="stylesheet" href="identity.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء هوية جديدة</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #245C36;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #D4AF37;
+            color: #245C36;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #c9a227;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .accept {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .reject {
+            background-color: #f44336;
+            color: white;
+        }
+        #idCard {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        footer {
+            background-color: #245C36;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div class="form-container">
+    <header>
         <h1>إنشاء هوية جديدة</h1>
+    </header>
+    
+    <div class="container">
         <form id="identityForm">
-            <input type="text" name="fullname" placeholder="الاسم الثلاثي" required><br>
-            <input type="text" name="age" placeholder="العمر" required><br>
-            <input type="text" name="nationality" placeholder="الجنسية" required><br>
-            <input type="text" name="birthdate" placeholder="تاريخ الميلاد (بالأرقام)" required><br>
-            <button type="submit" class="btn">إرسال</button>
+            <div class="form-group">
+                <label for="name">اسمك (بالرول):</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">عمرك (بالرول):</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="country">بلدك (بالرول):</label>
+                <select id="country" name="country" required>
+                    <option value="">اختر بلدك</option>
+                    <option value="السعودية">السعودية</option>
+                    <option value="الإمارات">الإمارات</option>
+                    <option value="الكويت">الكويت</option>
+                    <option value="عمان">عمان</option>
+                    <option value="قطر">قطر</option>
+                    <option value="البحرين">البحرين</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="birthdate">تاريخ الميلاد (بالرول):</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+            </div>
+            
+            <button type="button" class="btn" onclick="submitForm()">إنشاء هوية</button>
         </form>
+        
+        <div id="discordInfo" style="display: none; margin-top: 20px;">
+            <p>تم إرسال معلوماتك إلى الديسكورد. يرجى الانتظار للموافقة.</p>
+        </div>
+        
+        <div id="idCard">
+            <h2>هويتك الرقمية</h2>
+            <p><strong>الاسم:</strong> <span id="idName"></span></p>
+            <p><strong>العمر:</strong> <span id="idAge"></span></p>
+            <p><strong>البلد:</strong> <span id="idCountry"></span></p>
+            <p><strong>تاريخ الميلاد:</strong> <span id="idBirthdate"></span></p>
+            
+            <div class="action-buttons">
+                <button class="btn accept" onclick="acceptID()">قبول</button>
+                <button class="btn reject" onclick="rejectID()">رفض</button>
+            </div>
+        </div>
     </div>
-
-    <script src="identity.js"></script>
+    
+    <footer>
+        © 2023 FalcoN LiFe - جميع الحقوق محفوظة
+    </footer>
+    
+    <script>
+        function submitForm() {
+            // جمع البيانات من النموذج
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const country = document.getElementById('country').value;
+            const birthdate = document.getElementById('birthdate').value;
+            
+            // التحقق من صحة البيانات
+            if (!name || !age || !country || !birthdate) {
+                alert('يرجى ملء جميع الحقول');
+                return;
+            }
+            
+            // عرض معلومات الديسكورد
+            document.getElementById('discordInfo').style.display = 'block';
+            
+            // هنا يجب إضافة كود لإرسال البيانات إلى الديسكورد
+            // هذا يتطلب تكامل مع واجهة برمجة تطبيقات الديسكورد
+            
+            // عرض بطاقة الهوية (محاكاة)
+            setTimeout(() => {
+                document.getElementById('idName').textContent = name;
+                document.getElementById('idAge').textContent = age;
+                document.getElementById('idCountry').textContent = country;
+                document.getElementById('idBirthdate').textContent = birthdate;
+                document.getElementById('idCard').style.display = 'block';
+            }, 2000);
+        }
+        
+        function acceptID() {
+            alert('تم قبول الهوية بنجاح! سيتم إنشاء صورة الهوية الآن.');
+            // هنا يمكنك إضافة كود لإنشاء صورة الهوية
+        }
+        
+        function rejectID() {
+            alert('تم رفض الهوية. يمكنك تعديل المعلومات وإعادة المحاولة.');
+            document.getElementById('idCard').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
