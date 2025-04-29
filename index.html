@@ -3,66 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalcoN LiFe - نظام الهويات الوطني</title>
+    <title>FalcoN LiFe - نظام الهويات</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .hero {
-            background: linear-gradient(135deg, #245C36, #1A472A);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-        .content-section {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            line-height: 1.8;
-        }
-        .long-text {
-            margin-bottom: 30px;
-            text-align: justify;
-        }
-    </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>مرحباً بكم في نظام الهوية الرقمية</h1>
-        <p>منصة FalcoN LiFe المتكاملة لإصدار الهويات المعتمدة</p>
-        <a href="identity.html" class="btn">إنشاء هوية جديدة</a>
-    </div>
+    <div class="main-container">
+        <!-- الجزء الأبيض العلوي -->
+        <header class="white-header">
+            <img src="logo.png" alt="FalcoN LiFe" class="logo">
+            <h1>نظام الهوية الرقمية</h1>
+        </header>
 
-    <div class="content-section">
-        <div class="long-text">
-            <h2>عن نظامنا</h2>
-            <p>نظام الهوية الرقمية من FalcoN LiFe هو الحل الأمثل لإدارة الهويات بشكل آمن وفعال. تأسس هذا النظام عام 2023 بهدف توفير خدمة مميزة للمواطنين والمقيمين في المملكة العربية السعودية ودول الخليج العربي.</p>
-            
-            <h3>لماذا نختار FalcoN LiFe؟</h3>
-            <p>لأننا نقدم حلولاً متكاملة تتميز بما يلي:</p>
-            <ul>
-                <li>تشفير متقدم بمعايير AES-256</li>
-                <li>سرعة في إنهاء المعاملات لا تتجاوز 5 دقائق</li>
-                <li>توافق كامل مع أنظمة الهواتف الذكية</li>
-                <li>دعم فني على مدار الساعة</li>
-            </ul>
-            
-            <h3>رؤيتنا</h3>
-            <p>نسعى لأن نكون الرواد في مجال حلول الهوية الرقمية في المنطقة، من خلال توفير نظام سهل الاستخدام وآمن في نفس الوقت، مع الحفاظ على أعلى معايير الخصوصية وحماية البيانات.</p>
-            
-            <h3>الأسئلة الشائعة</h3>
-            <p><strong>س: كم تستغرق عملية الموافقة؟</strong><br>
-            ج: عادةً ما تتم خلال 24-48 ساعة عمل.</p>
-            
-            <p><strong>س: هل يمكنني تعديل البيانات بعد الإرسال؟</strong><br>
-            ج: نعم، خلال 24 ساعة من تقديم الطلب.</p>
-        </div>
-    </div>
+        <!-- الجزء الأخضر مع النص الأبيض -->
+        <section class="green-section">
+            <div class="content">
+                <h2>مرحباً بكم في نظام FalcoN LiFe</h2>
+                <div class="long-text">
+                    <p>نظام الهوية الرقمية من FalcoN LiFe هو الحل الأمثل لإدارة الهويات بشكل آمن وفعال. تأسس هذا النظام عام 2023 بهدف توفير خدمة مميزة للمواطنين والمقيمين في المملكة العربية السعودية ودول الخليج العربي.</p>
+                    
+                    <h3>لماذا نختار FalcoN LiFe؟</h3>
+                    <p>لأننا نقدم حلولاً متكاملة تتميز بما يلي:</p>
+                    <ul>
+                        <li>تشفير متقدم بمعايير AES-256</li>
+                        <li>سرعة في إنهاء المعاملات</li>
+                        <li>توافق كامل مع الأجهزة الذكية</li>
+                        <li>دعم فني على مدار الساعة</li>
+                    </ul>
 
-    <footer>
-        <p>© <span id="year"></span> FalcoN LiFe. جميع الحقوق محفوظة</p>
-    </footer>
+                    <h3>كيفية الاستخدام:</h3>
+                    <ol>
+                        <li>قم بملء استمارة الهوية</li>
+                        <li>انتظر الموافقة من المسؤول</li>
+                        <li>استلم هويتك الرقمية</li>
+                    </ol>
+                </div>
+                <a href="identity.html" class="cta-button">إنشاء هوية جديدة</a>
+            </div>
+        </section>
+
+        <!-- الفوتر -->
+        <footer>
+            <p>© <span id="current-year"></span> جميع الحقوق محفوظة لـ FalcoN LiFe</p>
+        </footer>
+    </div>
 
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // عرض السنة الحالية
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
