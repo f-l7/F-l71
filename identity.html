@@ -3,53 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء هوية - FalcoN LiFe</title>
+    <title>إنشاء هوية جديدة - FalcoN LiFe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="id-form-container">
-        <div class="form-header">
-            <a href="index.html" class="back-button">← الرجوع</a>
+    <div class="container">
+        <header>
             <h1>استمارة الهوية الرقمية</h1>
-        </div>
-
+            <a href="index.html" class="back-btn">← الرجوع</a>
+        </header>
+        
         <form id="identityForm">
-            <div class="input-group">
-                <label for="fullName">الاسم الكامل</label>
-                <input type="text" id="fullName" required>
+            <div class="form-group">
+                <label for="name">الاسم الكامل (ثلاثي)</label>
+                <input type="text" id="name" required placeholder="كما في الوثيقة الرسمية">
             </div>
-
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="age">العمر</label>
-                    <input type="number" id="age" required min="12">
-                </div>
-                <div class="input-group">
-                    <label for="country">البلد</label>
-                    <select id="country" required>
-                        <option value="">اختر</option>
-                        <option value="السعودية">🇸🇦 السعودية</option>
-                        <option value="الإمارات">🇦🇪 الإمارات</option>
-                    </select>
-                </div>
+            
+            <div class="form-group">
+                <label for="age">العمر</label>
+                <input type="number" id="age" required min="12" max="120">
             </div>
-
-            <div class="input-group">
+            
+            <div class="form-group">
+                <label for="country">البلد</label>
+                <select id="country" required>
+                    <option value="">-- اختر --</option>
+                    <option value="لوس سانتوس">لوس سانتوس</option>
+                    <option value="ساندي شور">ساندي شور</option>
+                    <option value="بليتو">بليتو</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
                 <label for="birthdate">تاريخ الميلاد</label>
                 <input type="date" id="birthdate" required>
             </div>
-
-            <div class="input-group">
-                <label for="discord">ايدي دسكورد <span class="required">*</span></label>
+            
+            <div class="form-group">
+                <label for="discord">ايدي دسكورد (مطلوب)</label>
                 <input type="text" id="discord" required placeholder="Username#1234">
+                <small>سيتم التواصل معك عبر هذا الحساب</small>
             </div>
-
-            <button type="button" id="submitBtn" class="submit-button">
-                <span class="button-text">إنشاء الهوية</span>
-            </button>
+            
+            <button type="button" id="submitBtn" class="submit-btn">إنشاء الهوية</button>
         </form>
+        
+        <div id="result" class="hidden"></div>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
