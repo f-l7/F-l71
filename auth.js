@@ -35,6 +35,7 @@ function showIdentityForm() {
         <div class="container">
             <h2>إنشاء هوية جديدة</h2>
             <form id="identityForm">
+                <input type="text" id="username" placeholder="ايديك" required>
                 <input type="text" id="name" placeholder="اسمك" required>
                 <input type="number" id="age" placeholder="عمرك" required>
                 <select id="country" required>
