@@ -1,11 +1,10 @@
-// تأكد من تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     
-    submitBtn.addEventListener('click', async () => {
+    submitBtn.addEventListener('click', async function() {
         // 1. جمع البيانات
-        const formData = {
-            name: document.getElementById('fullName').value.trim(),
+        const data = {
+            name: document.getElementById('name').value.trim(),
             age: document.getElementById('age').value,
             country: document.getElementById('country').value,
             birthdate: document.getElementById('birthdate').value,
@@ -13,31 +12,34 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // 2. التحقق من البيانات
-        if (!validateForm(formData)) return;
+        if (!validateData(data)) return;
 
         // 3. تغيير حالة الزر
-        toggleLoading(true);
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري الإرسال...';
 
         try {
             // 4. إرسال البيانات
-            const success = await sendToDiscord(formData);
+            const success = await sendToDiscord(data);
             
             if (success) {
-                showSuccessMessage();
+                showResult('✅ تم إرسال طلبك بنجاح! سيتم المراجعة', 'success');
                 document.getElementById('identityForm').reset();
             } else {
-                throw new Error('فشل الإرسال');
+                throw new Error('فشل في الإرسال');
             }
         } catch (error) {
-            alert(`❌ حدث خطأ: ${error.message}`);
+            showResult(`❌ حدث خطأ: ${error.message}`, 'error');
+            console.error(error);
         } finally {
-            toggleLoading(false);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'إنشاء الهوية';
         }
     });
 
     // دوال مساعدة
-    function validateForm(data) {
-        if (!data.discord || !data.discord.includes('#')) {
+    function validateData(data) {
+        if (!data.discord || !/^[^#]+#\d{4}$/.test(data.discord)) {
             alert('❗ اكتب ايدي دسكورد صحيح (مثال: User#1234)');
             return false;
         }
@@ -51,12 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({
                 embeds: [{
                     title: "طلب هوية جديد",
-                    color: 0x245C36,
+                    description: `تم التسجيل بواسطة: ${data.discord}`,
                     fields: [
                         { name: "الاسم", value: data.name },
-                        { name: "الديسكورد", value: data.discord },
+                        { name: "العمر", value: data.age },
                         { name: "البلد", value: data.country }
                     ],
+                    color: 0x245C36,
                     timestamp: new Date()
                 }]
             })
@@ -64,18 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.ok;
     }
 
-    function toggleLoading(isLoading) {
-        const btnText = document.querySelector('.button-text');
-        if (isLoading) {
-            submitBtn.disabled = true;
-            btnText.textContent = 'جاري الإرسال...';
-        } else {
-            submitBtn.disabled = false;
-            btnText.textContent = 'إنشاء الهوية';
-        }
-    }
-
-    function showSuccessMessage() {
-        alert('✅ تم إرسال طلبك بنجاح! سيتم المراجعة');
+    function showResult(message, type) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = message;
+        resultDiv.className = type;
+        resultDiv.classList.remove('hidden');
+        
+        setTimeout(() => {
+            resultDiv.classList.add('hidden');
+        }, 5000);
     }
 });
