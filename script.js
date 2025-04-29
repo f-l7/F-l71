@@ -3,17 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
     
     const submitBtn = document.getElementById('submitBtn');
-    const WEBHOOK_URL = "WEBHOOK_URL_HERE"; // استبدل برابطك
+    if (!submitBtn) {
+        console.error('لم يتم العثور على زر الإرسال!');
+        return;
+    }
 
     submitBtn.addEventListener('click', async function() {
         // 1. جمع البيانات
         const formData = {
-            name: document.getElementById('name').value.trim(),
+            name: document.getElementById('fullName').value.trim(),
             age: document.getElementById('age').value,
             country: document.getElementById('country').value,
             birthdate: document.getElementById('birthdate').value,
-            discord: document.getElementById('discord').value.trim(),
-            ip: await getIP() // إضافة IP للتحقق
+            discord: document.getElementById('discord').value.trim()
         };
 
         // 2. التحقق من البيانات
@@ -24,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearMessages();
 
         try {
-            // 4. إرسال البيانات إلى الديسكورد
-            const response = await fetchWithTimeout(WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            // 4. إرسال البيانات (استبدل الرابط)
+            const response = await fetch("WEBHOOK_URL_HERE", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     embeds: [{
                         title: "طلب هوية جديد",
@@ -36,51 +38,37 @@ document.addEventListener('DOMContentLoaded', function() {
                             { name: "الاسم", value: formData.name || "غير متوفر" },
                             { name: "العمر", value: formData.age || "غير متوفر" },
                             { name: "البلد", value: formData.country || "غير متوفر" },
-                            { name: "تاريخ الميلاد", value: formData.birthdate || "غير متوفر" },
-                            { name: "IP المستخدم", value: formData.ip || "غير معروف" }
+                            { name: "تاريخ الميلاد", value: formData.birthdate || "غير متوفر" }
                         ],
                         color: 0x245C36,
-                        timestamp: new Date().toISOString()
+                        timestamp: new Date()
                     }]
                 })
-            }, 10000); // مهلة 10 ثواني
+            });
 
-            // 5. معالجة الاستجابة
-            if (!response.ok) {
-                throw new Error(`خطأ في السيرفر: ${response.status}`);
-            }
+            if (!response.ok) throw new Error('فشل في الإرسال');
 
-            showSuccess('تم إرسال طلبك بنجاح! سيتم المراجعة');
+            showResult('✅ تم إرسال طلبك بنجاح!', 'success');
             document.getElementById('identityForm').reset();
 
         } catch (error) {
             console.error('Error:', error);
-            showError(`فشل الإرسال: ${error.message}`);
+            showResult(`❌ ${error.message}`, 'error');
         } finally {
             toggleLoading(false);
         }
     });
 
     // ========== دوال مساعدة ==========
-    async function getIP() {
-        try {
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
-        } catch {
-            return null;
-        }
-    }
-
     function validateForm(data) {
         const errors = [];
         
-        if (!/^[\u0600-\u06FF\s]{3,}$/.test(data.name)) {
-            errors.push("يجب إدخال اسم عربي صحيح (ثلاثي على الأقل)");
+        if (!data.name || data.name.length < 3) {
+            errors.push("الاسم يجب أن يحتوي على 3 أحرف على الأقل");
         }
         
-        if (data.age < 12 || data.age > 120) {
-            errors.push("العمر يجب أن يكون بين 12 و120 سنة");
+        if (!data.age || data.age < 12) {
+            errors.push("العمر يجب أن يكون 12 سنة على الأقل");
         }
         
         if (!data.country) {
@@ -89,39 +77,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!data.birthdate) {
             errors.push("يجب إدخال تاريخ الميلاد");
-        } else if (new Date(data.birthdate) > new Date()) {
-            errors.push("تاريخ الميلاد لا يمكن أن يكون في المستقبل");
         }
         
-        if (!/^[^#]+#\d{4}$/.test(data.discord)) {
-            errors.push("إيدي دسكورد غير صحيح (يجب أن يكون بالشكل: User#1234)");
+        if (!data.discord || !data.discord.includes('#')) {
+            errors.push("إيدي دسكورد غير صحيح (مثال: User#1234)");
         }
         
         if (errors.length > 0) {
-            showError(errors.join('<br>'));
+            showResult(errors.join('<br>'), 'error');
             return false;
         }
         
         return true;
-    }
-
-    async function fetchWithTimeout(url, options, timeout) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
-        
-        try {
-            const response = await fetch(url, {
-                ...options,
-                signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-            return response;
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                throw new Error('تجاوز الوقت المحدد للإرسال');
-            }
-            throw error;
-        }
     }
 
     function toggleLoading(show) {
@@ -139,20 +106,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function showError(message) {
-        const errorDiv = document.getElementById('errorMsg');
-        errorDiv.innerHTML = message;
-        errorDiv.classList.remove('hidden');
-    }
-
-    function showSuccess(message) {
-        const successDiv = document.getElementById('successMsg');
-        successDiv.textContent = message;
-        successDiv.classList.remove('hidden');
+    function showResult(message, type) {
+        const resultDiv = document.getElementById('resultMessage');
+        resultDiv.innerHTML = message;
+        resultDiv.className = type;
+        resultDiv.classList.remove('hidden');
     }
 
     function clearMessages() {
-        document.getElementById('errorMsg').classList.add('hidden');
-        document.getElementById('successMsg').classList.add('hidden');
+        document.getElementById('resultMessage').classList.add('hidden');
     }
 });
