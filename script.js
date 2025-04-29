@@ -1,129 +1,158 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // تحديد الحد الأقصى لتاريخ الميلاد (اليوم الحالي)
+    // تحديد الحد الأقصى لتاريخ الميلاد (اليوم)
     document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
     
     const submitBtn = document.getElementById('submitBtn');
-    const errorDiv = document.getElementById('errorMessage');
-    
+    const WEBHOOK_URL = "WEBHOOK_URL_HERE"; // استبدل برابطك
+
     submitBtn.addEventListener('click', async function() {
         // 1. جمع البيانات
-        const data = {
+        const formData = {
             name: document.getElementById('name').value.trim(),
             age: document.getElementById('age').value,
             country: document.getElementById('country').value,
             birthdate: document.getElementById('birthdate').value,
-            discord: document.getElementById('discord').value.trim()
+            discord: document.getElementById('discord').value.trim(),
+            ip: await getIP() // إضافة IP للتحقق
         };
 
         // 2. التحقق من البيانات
-        if (!validateData(data)) return;
+        if (!validateForm(formData)) return;
 
-        // 3. تغيير حالة الزر
+        // 3. إظهار حالة التحميل
         toggleLoading(true);
-        clearError();
+        clearMessages();
 
         try {
-            // 4. إرسال البيانات
-            const success = await sendToDiscord(data);
-            
-            if (success) {
-                showResult('✅ تم إرسال طلبك بنجاح! سيتم المراجعة', 'success');
-                document.getElementById('identityForm').reset();
-            } else {
-                throw new Error('فشل في إرسال البيانات');
+            // 4. إرسال البيانات إلى الديسكورد
+            const response = await fetchWithTimeout(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "طلب هوية جديد",
+                        description: `تم التسجيل بواسطة: ${formData.discord}`,
+                        fields: [
+                            { name: "الاسم", value: formData.name || "غير متوفر" },
+                            { name: "العمر", value: formData.age || "غير متوفر" },
+                            { name: "البلد", value: formData.country || "غير متوفر" },
+                            { name: "تاريخ الميلاد", value: formData.birthdate || "غير متوفر" },
+                            { name: "IP المستخدم", value: formData.ip || "غير معروف" }
+                        ],
+                        color: 0x245C36,
+                        timestamp: new Date().toISOString()
+                    }]
+                })
+            }, 10000); // مهلة 10 ثواني
+
+            // 5. معالجة الاستجابة
+            if (!response.ok) {
+                throw new Error(`خطأ في السيرفر: ${response.status}`);
             }
+
+            showSuccess('تم إرسال طلبك بنجاح! سيتم المراجعة');
+            document.getElementById('identityForm').reset();
+
         } catch (error) {
-            showError(`❌ ${error.message}`);
-            console.error(error);
+            console.error('Error:', error);
+            showError(`فشل الإرسال: ${error.message}`);
         } finally {
             toggleLoading(false);
         }
     });
 
     // ========== دوال مساعدة ==========
-    function validateData(data) {
-        // تحقق من الاسم
+    async function getIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch {
+            return null;
+        }
+    }
+
+    function validateForm(data) {
+        const errors = [];
+        
         if (!/^[\u0600-\u06FF\s]{3,}$/.test(data.name)) {
-            showError('❗ يجب إدخال اسم عربي صحيح (ثلاثي على الأقل)');
-            return false;
+            errors.push("يجب إدخال اسم عربي صحيح (ثلاثي على الأقل)");
         }
         
-        // تحقق من العمر
         if (data.age < 12 || data.age > 120) {
-            showError('❗ العمر يجب أن يكون بين 12 و 120 سنة');
-            return false;
+            errors.push("العمر يجب أن يكون بين 12 و120 سنة");
         }
         
-        // تحقق من البلد
-        const allowedCountries = ['لوس سانتوس', 'ساندي شور', 'بليتو'];
-        if (!allowedCountries.includes(data.country)) {
-            showError('❗ البلد المحدد غير مدعوم حالياً');
-            return false;
+        if (!data.country) {
+            errors.push("يجب اختيار البلد");
         }
         
-        // تحقق من تاريخ الميلاد
-        const birthDate = new Date(data.birthdate);
-        const currentDate = new Date();
-        if (birthDate > currentDate) {
-            showError('❗ تاريخ الميلاد لا يمكن أن يكون في المستقبل');
-            return false;
+        if (!data.birthdate) {
+            errors.push("يجب إدخال تاريخ الميلاد");
+        } else if (new Date(data.birthdate) > new Date()) {
+            errors.push("تاريخ الميلاد لا يمكن أن يكون في المستقبل");
         }
         
-        // تحقق من ايدي دسكورد
         if (!/^[^#]+#\d{4}$/.test(data.discord)) {
-            showError('❗ اكتب ايدي دسكورد صحيح (مثال: User#1234)');
+            errors.push("إيدي دسكورد غير صحيح (يجب أن يكون بالشكل: User#1234)");
+        }
+        
+        if (errors.length > 0) {
+            showError(errors.join('<br>'));
             return false;
         }
         
         return true;
     }
 
-    async function sendToDiscord(data) {
-        const response = await fetch("https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                embeds: [{
-                    title: "طلب هوية جديد",
-                    description: `تم التسجيل بواسطة: ${data.discord}`,
-                    fields: [
-                        { name: "الاسم", value: data.name },
-                        { name: "العمر", value: data.age },
-                        { name: "البلد", value: data.country },
-                        { name: "تاريخ الميلاد", value: data.birthdate }
-                    ],
-                    color: 0x245C36,
-                    timestamp: new Date()
-                }]
-            })
-        });
-        return response.ok;
+    async function fetchWithTimeout(url, options, timeout) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        
+        try {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            return response;
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new Error('تجاوز الوقت المحدد للإرسال');
+            }
+            throw error;
+        }
     }
 
-    function toggleLoading(isLoading) {
-        submitBtn.disabled = isLoading;
-        submitBtn.innerHTML = isLoading ? 
-            '<span class="loading-spinner"></span> جاري الإرسال...' : 
-            'إنشاء الهوية';
+    function toggleLoading(show) {
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btnText');
+        
+        if (show) {
+            loader.classList.remove('hidden');
+            btnText.textContent = 'جاري الإرسال...';
+            submitBtn.disabled = true;
+        } else {
+            loader.classList.add('hidden');
+            btnText.textContent = 'إنشاء الهوية';
+            submitBtn.disabled = false;
+        }
     }
 
     function showError(message) {
-        errorDiv.textContent = message;
+        const errorDiv = document.getElementById('errorMsg');
+        errorDiv.innerHTML = message;
         errorDiv.classList.remove('hidden');
     }
 
-    function clearError() {
-        errorDiv.classList.add('hidden');
+    function showSuccess(message) {
+        const successDiv = document.getElementById('successMsg');
+        successDiv.textContent = message;
+        successDiv.classList.remove('hidden');
     }
 
-    function showResult(message, type) {
-        const resultDiv = document.getElementById('result');
-        resultDiv.textContent = message;
-        resultDiv.className = type;
-        resultDiv.classList.remove('hidden');
-        
-        setTimeout(() => {
-            resultDiv.classList.add('hidden');
-        }, 5000);
+    function clearMessages() {
+        document.getElementById('errorMsg').classList.add('hidden');
+        document.getElementById('successMsg').classList.add('hidden');
     }
 });
