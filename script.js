@@ -38,7 +38,7 @@ function validateData(data) {
 
 // إرسال إلى ديسكورد
 async function sendToDiscord(data) {
-    const webhookUrl = "WEBHOOK_URL_HERE"; // استبدل برابط الويب هوك
+    const webhookUrl = "https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4"; // استبدل برابط الويب هوك
     
     try {
         const response = await fetch(webhookUrl, {
