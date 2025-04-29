@@ -1,55 +1,81 @@
-async function submitForm() {
-    console.log("تم النقر على الزر!");
+// تأكد من تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn = document.getElementById('submitBtn');
     
-    const data = {
-        name: document.getElementById('name').value,
-        age: document.getElementById('age').value,
-        country: document.getElementById('country').value,
-        birthdate: document.getElementById('birthdate').value,
-        discord: document.getElementById('discord').value
-    };
+    submitBtn.addEventListener('click', async () => {
+        // 1. جمع البيانات
+        const formData = {
+            name: document.getElementById('fullName').value.trim(),
+            age: document.getElementById('age').value,
+            country: document.getElementById('country').value,
+            birthdate: document.getElementById('birthdate').value,
+            discord: document.getElementById('discord').value.trim()
+        };
 
-    // تحقق من البيانات
-    if (!data.discord || !data.discord.includes('#')) {
-        alert("❗ يجب إدخال ايدي دسكورد صحيح (مثال: User#1234)");
-        return;
+        // 2. التحقق من البيانات
+        if (!validateForm(formData)) return;
+
+        // 3. تغيير حالة الزر
+        toggleLoading(true);
+
+        try {
+            // 4. إرسال البيانات
+            const success = await sendToDiscord(formData);
+            
+            if (success) {
+                showSuccessMessage();
+                document.getElementById('identityForm').reset();
+            } else {
+                throw new Error('فشل الإرسال');
+            }
+        } catch (error) {
+            alert(`❌ حدث خطأ: ${error.message}`);
+        } finally {
+            toggleLoading(false);
+        }
+    });
+
+    // دوال مساعدة
+    function validateForm(data) {
+        if (!data.discord || !data.discord.includes('#')) {
+            alert('❗ اكتب ايدي دسكورد صحيح (مثال: User#1234)');
+            return false;
+        }
+        return true;
     }
 
-    // عرض حالة التحميل
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.textContent = "جاري الإرسال...";
-
-    try {
-        const response = await fetch("https://discord.com/api/webhooks/1366369025986265179/rVX34EBkGn6anyrTz_IMJgBG1Acjr43_raqun2XVkTtpkSeFmygPcYwuL1aebfaQGJp4", {
+    async function sendToDiscord(data) {
+        const response = await fetch("WEBHOOK_URL_HERE", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                content: "**طلب جديد**",
                 embeds: [{
-                    title: "طلب هوية",
+                    title: "طلب هوية جديد",
+                    color: 0x245C36,
                     fields: [
                         { name: "الاسم", value: data.name },
-                        { name: "الديسكورد", value: data.discord }
+                        { name: "الديسكورد", value: data.discord },
+                        { name: "البلد", value: data.country }
                     ],
-                    color: 5814783
+                    timestamp: new Date()
                 }]
             })
         });
-
-        if (response.ok) {
-            alert("✅ تم الإرسال بنجاح للديسكورد!");
-        } else {
-            throw new Error("فشل الإرسال");
-        }
-    } catch (error) {
-        console.error(error);
-        alert("❌ حدث خطأ: " + error.message);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = "إنشاء الهوية";
+        return response.ok;
     }
-}
 
-// ربط الحدث مباشرة
-document.getElementById('submitBtn').addEventListener('click', submitForm);
+    function toggleLoading(isLoading) {
+        const btnText = document.querySelector('.button-text');
+        if (isLoading) {
+            submitBtn.disabled = true;
+            btnText.textContent = 'جاري الإرسال...';
+        } else {
+            submitBtn.disabled = false;
+            btnText.textContent = 'إنشاء الهوية';
+        }
+    }
+
+    function showSuccessMessage() {
+        alert('✅ تم إرسال طلبك بنجاح! سيتم المراجعة');
+    }
+});
