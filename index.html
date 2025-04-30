@@ -3,30 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هوية ديسكورد - FalcoN LiFe</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>نظام الهوية الديسكوردية - FalcoN LiFe</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>نظام الهوية الديسكوردية</h1>
-        <p>بواسطة FalcoN LiFe</p>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>نظام الهوية الديسكوردية</h1>
+            <p>بواسطة FalcoN LiFe</p>
+        </div>
     </header>
 
-    <div class="nav">
-        <a href="index.html" class="btn">الرئيسية</a>
-        <a href="my_id.html" class="btn">هويتي</a>
-        <a href="create_id.html" class="btn">إنشاء هوية</a>
-        <a href="admin.html" class="btn">المسؤولين</a>
-    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link active">الرئيسية</a></li>
+            <li><a href="my_id.html" class="nav-link">هويتي</a></li>
+            <li><a href="create_id.html" class="nav-link">إنشاء هوية</a></li>
+            <li><a href="admin.html" class="nav-link">لوحة المسؤولين</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-        <div class="content">
-            <h2>مرحباً بكم في نظام الهوية الديسكوردية</h2>
-            <p>هذا النظام مصمم لإنشاء هويات رسمية لأعضاء سيرفر ديسكورد.</p>
+    <main class="main-content">
+        <section class="welcome-section">
+            <h2>مرحباً بكم في نظام الهوية</h2>
+            <p>نظام متكامل لإدارة هويات أعضاء سيرفر ديسكورد</p>
+        </section>
+
+        <div class="features-container">
+            <div class="feature-card">
+                <h3>إنشاء هوية</h3>
+                <p>أنشئ هويتك الديسكوردية بسهولة</p>
+            </div>
+            <div class="feature-card">
+                <h3>إدارة الهوية</h3>
+                <p>عرض وتعديل معلومات هويتك</p>
+            </div>
+            <div class="feature-card">
+                <h3>نظام آمن</h3>
+                <p>حماية كاملة لبياناتك</p>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
-    <script src="main.js"></script>
+    <footer class="main-footer">
+        <p>جميع الحقوق محفوظة &copy; <span id="current-year"></span> FalcoN LiFe</p>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
