@@ -1,90 +1,176 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    const adminPanel = document.getElementById('adminPanel');
-    const loginBtn = document.getElementById('loginBtn');
-    const errorContainer = document.getElementById('adminError');
-    
-    // كلمة مرور المسؤولين
+    // بيانات المسؤول
     const ADMIN_CREDENTIALS = {
         username: "admin",
         password: "admin123"
     };
-
-    loginBtn.addEventListener('click', function() {
-        const username = document.getElementById('adminUsername').value;
+    
+    // عناصر DOM
+    const loginSection = document.getElementById('loginSection');
+    const adminPanel = document.getElementById('adminPanel');
+    const loginForm = document.getElementById('adminLoginForm');
+    const loginMessages = document.getElementById('loginMessages');
+    const adminName = document.getElementById('adminName');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const actionModal = document.getElementById('actionModal');
+    const actionModalTitle = document.getElementById('actionModalTitle');
+    const actionModalBody = document.getElementById('actionModalBody');
+    const confirmActionBtn = document.getElementById('confirmActionBtn');
+    const cancelActionBtn = document.getElementById('cancelActionBtn');
+    
+    // متغيرات الحالة
+    let currentAdmin = null;
+    let currentAction = null;
+    let currentItemId = null;
+    
+    // تهيئة الصفحة
+    init();
+    
+    // معالجة تسجيل الدخول
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('adminUsername').value.trim();
         const password = document.getElementById('adminPassword').value;
         
         if(username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-            loginForm.style.display = 'none';
-            adminPanel.style.display = 'block';
-            loadAdminPanel();
+            loginSuccess(username);
         } else {
-            showError('بيانات الدخول غير صحيحة');
+            showLoginError('بيانات الدخول غير صحيحة');
         }
     });
-
-    async function loadAdminPanel() {
-        try {
-            // جلب بيانات المسؤول
-            const adminInfo = await fetchAdminInfo();
-            document.getElementById('adminInfo').innerHTML = `
-                <p>مرحباً ${adminInfo.username} (${adminInfo.discord})</p>
-            `;
-            
-            // جلب طلبات الهويات
-            const pendingRequests = await fetchPendingRequests();
-            renderPendingRequests(pendingRequests);
-            
-            // جلب جميع الهويات
-            const allIds = await fetchAllIds();
-            renderAllIds(allIds);
-            
-        } catch (error) {
-            console.error('Error loading admin panel:', error);
-            showError('حدث خطأ أثناء تحميل لوحة التحكم');
-        }
+    
+    // معالجة تسجيل الخروج
+    logoutBtn.addEventListener('click', logout);
+    
+    // معالجة تغيير التبويبات
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+        });
+    });
+    
+    // معالجة الأحداث في المشرف
+    confirmActionBtn.addEventListener('click', handleConfirmAction);
+    cancelActionBtn.addEventListener('click', closeActionModal);
+    
+    // وظائف التهيئة
+    function init() {
+        adminPanel.style.display = 'none';
+        switchTab('pending');
+        loadMockData();
     }
-
-    function showError(message) {
-        errorContainer.innerHTML = `
+    
+    function loginSuccess(username) {
+        currentAdmin = username;
+        adminName.textContent = username;
+        loginSection.style.display = 'none';
+        adminPanel.style.display = 'block';
+    }
+    
+    function logout() {
+        currentAdmin = null;
+        adminPanel.style.display = 'none';
+        loginSection.style.display = 'block';
+        loginForm.reset();
+    }
+    
+    function showLoginError(message) {
+        loginMessages.innerHTML = `
             <div class="error-message">${message}</div>
         `;
     }
-
-    // الوظائف المساعدة للاتصال بالخادم
-    async function fetchAdminInfo() {
-        const response = await fetch('/api/admin_info');
-        return await response.json();
+    
+    function switchTab(tabId) {
+        // تحديث أزرار التبويب
+        tabButtons.forEach(button => {
+            button.classList.toggle('active', button.getAttribute('data-tab') === tabId);
+        });
+        
+        // تحديث محتوى التبويب
+        tabContents.forEach(content => {
+            content.classList.toggle('active', content.id === `${tabId}Tab`);
+        });
     }
-
-    async function fetchPendingRequests() {
-        const response = await fetch('/api/pending_requests');
-        return await response.json();
+    
+    function loadMockData() {
+        // طلبات معلقة وهمية
+        const pendingRequests = [
+            {
+                id: 'req1',
+                username: 'مستخدم 1',
+                discord: 'User1#1234',
+                age: 25,
+                country: 'السعودية',
+                date: '2023-05-01'
+            },
+            {
+                id: 'req2',
+                username: 'مستخدم 2',
+                discord: 'User2#5678',
+                age: 30,
+                country: 'مصر',
+                date: '2023-05-02'
+            }
+        ];
+        
+        // هويات معتمدة وهمية
+        const approvedIds = [
+            {
+                id: 'id1',
+                idNumber: 'ID-2023-001',
+                username: 'مستخدم معتمد 1',
+                discord: 'Approved1#1234',
+                age: 22,
+                country: 'الكويت',
+                date: '2023-04-15'
+            }
+        ];
+        
+        // طلبات مرفوضة وهمية
+        const rejectedRequests = [
+            {
+                id: 'rej1',
+                username: 'مستخدم مرفوض 1',
+                discord: 'Rejected1#1234',
+                age: 17,
+                country: 'الإمارات',
+                date: '2023-04-20',
+                reason: 'العمر أقل من المسموح'
+            }
+        ];
+        
+        renderPendingRequests(pendingRequests);
+        renderApprovedIds(approvedIds);
+        renderRejectedRequests(rejectedRequests);
     }
-
-    async function fetchAllIds() {
-        const response = await fetch('/api/all_ids');
-        return await response.json();
-    }
-
+    
     function renderPendingRequests(requests) {
         const container = document.getElementById('pendingRequests');
+        
         if(requests.length === 0) {
-            container.innerHTML = '<p>لا توجد طلبات جديدة</p>';
+            container.innerHTML = '<p class="no-data">لا توجد طلبات معلقة</p>';
             return;
         }
         
         let html = '';
         requests.forEach(request => {
             html += `
-                <div class="request-card">
-                    <h4>طلب جديد من ${request.username}</h4>
-                    <p>الديسكورد: ${request.discord}</p>
-                    <p>العمر: ${request.age}</p>
-                    <p>البلد: ${request.country}</p>
+                <div class="request-card" data-id="${request.id}">
+                    <div class="request-header">
+                        <h4>${request.username}</h4>
+                        <span class="request-date">${request.date}</span>
+                    </div>
+                    <div class="request-details">
+                        <p><strong>الديسكورد:</strong> ${request.discord}</p>
+                        <p><strong>العمر:</strong> ${request.age}</p>
+                        <p><strong>البلد:</strong> ${request.country}</p>
+                    </div>
                     <div class="request-actions">
-                        <button class="btn approve-btn" data-id="${request.id}">قبول</button>
-                        <button class="btn reject-btn" data-id="${request.id}">رفض</button>
+                        <button class="action-btn approve-btn" data-id="${request.id}">قبول</button>
+                        <button class="action-btn reject-btn" data-id="${request.id}">رفض</button>
                     </div>
                 </div>
             `;
@@ -94,152 +180,177 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // إضافة معالجات الأحداث للأزرار
         document.querySelectorAll('.approve-btn').forEach(btn => {
-            btn.addEventListener('click', async function() {
+            btn.addEventListener('click', function() {
                 const requestId = this.getAttribute('data-id');
-                await processRequest(requestId, 'approve');
+                showActionModal('قبول الطلب', 'هل أنت متأكد من قبول هذا الطلب؟', 'approve', requestId);
             });
         });
         
         document.querySelectorAll('.reject-btn').forEach(btn => {
-            btn.addEventListener('click', async function() {
+            btn.addEventListener('click', function() {
                 const requestId = this.getAttribute('data-id');
-                await processRequest(requestId, 'reject');
+                showActionModal('رفض الطلب', 'الرجاء إدخال سبب الرفض:', 'reject', requestId, true);
             });
         });
     }
-
-    async function processRequest(requestId, action) {
-        try {
-            const response = await fetch(`/api/process_request`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    requestId,
-                    action
-                })
-            });
-            
-            const data = await response.json();
-            
-            if(!response.ok) {
-                throw new Error(data.message || 'حدث خطأ أثناء المعالجة');
-            }
-            
-            if(data.success) {
-                alert(`تم ${action === 'approve' ? 'قبول' : 'رفض'} الطلب بنجاح`);
-                loadAdminPanel(); // تحديث البيانات
-            }
-        } catch (error) {
-            alert(error.message);
-            console.error('Error processing request:', error);
-        }
-    }
-
-    function renderAllIds(ids) {
-        const container = document.getElementById('idsList');
+    
+    function renderApprovedIds(ids) {
+        const container = document.getElementById('approvedIds');
+        
         if(ids.length === 0) {
-            container.innerHTML = '<p>لا توجد هويات مسجلة</p>';
+            container.innerHTML = '<p class="no-data">لا توجد هويات معتمدة</p>';
             return;
         }
         
-        let html = '<div class="ids-grid">';
+        let html = '';
         ids.forEach(id => {
             html += `
-                <div class="id-card">
-                    <h4>${id.username} (${id.idNumber})</h4>
-                    <p>الديسكورد: ${id.discord}</p>
-                    <p>العمر: ${id.age}</p>
-                    <p>البلد: ${id.country}</p>
+                <div class="id-card" data-id="${id.id}">
+                    <div class="id-header">
+                        <h4>${id.username}</h4>
+                        <span class="id-number">${id.idNumber}</span>
+                    </div>
+                    <div class="id-details">
+                        <p><strong>الديسكورد:</strong> ${id.discord}</p>
+                        <p><strong>العمر:</strong> ${id.age}</p>
+                        <p><strong>البلد:</strong> ${id.country}</p>
+                        <p><strong>تاريخ الاعتماد:</strong> ${id.date}</p>
+                    </div>
                     <div class="id-actions">
-                        <button class="btn edit-btn" data-id="${id.idNumber}">تعديل</button>
-                        <button class="btn delete-btn" data-id="${id.idNumber}">حذف</button>
+                        <button class="action-btn edit-btn" data-id="${id.id}">تعديل</button>
+                        <button class="action-btn delete-btn" data-id="${id.id}">حذف</button>
                     </div>
                 </div>
             `;
         });
-        html += '</div>';
         
         container.innerHTML = html;
         
         // إضافة معالجات الأحداث للأزرار
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const idNumber = this.getAttribute('data-id');
-                editId(idNumber);
+                const id = this.getAttribute('data-id');
+                showEditModal(id);
             });
         });
         
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const idNumber = this.getAttribute('data-id');
-                deleteId(idNumber);
+                const id = this.getAttribute('data-id');
+                showActionModal('حذف الهوية', 'هل أنت متأكد من حذف هذه الهوية؟', 'delete', id);
             });
         });
     }
-
-    async function editId(idNumber) {
-        const newUsername = prompt('أدخل الاسم الجديد:');
-        if(newUsername) {
-            try {
-                const response = await fetch(`/api/update_id`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        idNumber,
-                        username: newUsername
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if(!response.ok) {
-                    throw new Error(data.message || 'حدث خطأ أثناء التعديل');
-                }
-                
-                if(data.success) {
-                    alert('تم تحديث الهوية بنجاح');
-                    loadAdminPanel(); // تحديث البيانات
-                }
-            } catch (error) {
-                alert(error.message);
-                console.error('Error editing ID:', error);
-            }
+    
+    function renderRejectedRequests(requests) {
+        const container = document.getElementById('rejectedRequests');
+        
+        if(requests.length === 0) {
+            container.innerHTML = '<p class="no-data">لا توجد طلبات مرفوضة</p>';
+            return;
         }
+        
+        let html = '';
+        requests.forEach(request => {
+            html += `
+                <div class="request-card rejected" data-id="${request.id}">
+                    <div class="request-header">
+                        <h4>${request.username}</h4>
+                        <span class="request-date">${request.date}</span>
+                    </div>
+                    <div class="request-details">
+                        <p><strong>الديسكورد:</strong> ${request.discord}</p>
+                        <p><strong>العمر:</strong> ${request.age}</p>
+                        <p><strong>البلد:</strong> ${request.country}</p>
+                        <p><strong>سبب الرفض:</strong> ${request.reason}</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
     }
-
-    async function deleteId(idNumber) {
-        const reason = prompt('أدخل سبب الحذف:');
-        if(reason) {
-            try {
-                const response = await fetch(`/api/delete_id`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        idNumber,
-                        reason
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if(!response.ok) {
-                    throw new Error(data.message || 'حدث خطأ أثناء الحذف');
-                }
-                
-                if(data.success) {
-                    alert('تم حذف الهوية بنجاح');
-                    loadAdminPanel(); // تحديث البيانات
-                }
-            } catch (error) {
-                alert(error.message);
-                console.error('Error deleting ID:', error);
-            }
+    
+    function showActionModal(title, message, action, itemId, showInput = false) {
+        currentAction = action;
+        currentItemId = itemId;
+        
+        actionModalTitle.textContent = title;
+        
+        if(showInput) {
+            actionModalBody.innerHTML = `
+                <p>${message}</p>
+                <textarea id="reasonInput" placeholder="أدخل سبب الرفض..." rows="3"></textarea>
+            `;
+        } else {
+            actionModalBody.innerHTML = `<p>${message}</p>`;
         }
+        
+        actionModal.style.display = 'flex';
+    }
+    
+    function showEditModal(id) {
+        // في الواقع الفعلي، سيتم جلب بيانات الهوية من الخادم
+        const idData = {
+            username: 'اسم المستخدم الحالي',
+            discord: 'User#1234',
+            age: 25,
+            country: 'السعودية'
+        };
+        
+        actionModalTitle.textContent = 'تعديل الهوية';
+        actionModalBody.innerHTML = `
+            <div class="edit-form">
+                <div class="form-group">
+                    <label for="editUsername">الاسم:</label>
+                    <input type="text" id="editUsername" value="${idData.username}">
+                </div>
+                <div class="form-group">
+                    <label for="editDiscord">ايدي ديسكورد:</label>
+                    <input type="text" id="editDiscord" value="${idData.discord}">
+                </div>
+                <div class="form-group">
+                    <label for="editAge">العمر:</label>
+                    <input type="number" id="editAge" value="${idData.age}">
+                </div>
+                <div class="form-group">
+                    <label for="editCountry">البلد:</label>
+                    <input type="text" id="editCountry" value="${idData.country}">
+                </div>
+            </div>
+        `;
+        
+        currentAction = 'edit';
+        currentItemId = id;
+        actionModal.style.display = 'flex';
+    }
+    
+    function closeActionModal() {
+        actionModal.style.display = 'none';
+        currentAction = null;
+        currentItemId = null;
+    }
+    
+    function handleConfirmAction() {
+        let reason = '';
+        
+        if(currentAction === 'reject') {
+            const reasonInput = document.getElementById('reasonInput');
+            if(!reasonInput.value.trim()) {
+                alert('الرجاء إدخال سبب الرفض');
+                return;
+            }
+            reason = reasonInput.value;
+        }
+        
+        // في الواقع الفعلي، سيتم هنا إرسال الإجراء إلى الخادم
+        console.log(`تنفيذ الإجراء: ${currentAction} على العنصر: ${currentItemId}`, reason ? `بسبب: ${reason}` : '');
+        
+        // محاكاة نجاح الإجراء
+        alert(`تم ${currentAction === 'approve' ? 'قبول' : currentAction === 'reject' ? 'رفض' : 'حذف'} الطلب بنجاح`);
+        
+        closeActionModal();
+        // إعادة تحميل البيانات
+        loadMockData();
     }
 });
