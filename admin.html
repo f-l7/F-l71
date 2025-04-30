@@ -4,57 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة المسؤولين - FalcoN LiFe</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>لوحة المسؤولين</h1>
-        <p>بواسطة FalcoN LiFe</p>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>لوحة المسؤولين</h1>
+            <p>بواسطة FalcoN LiFe</p>
+        </div>
     </header>
 
-    <div class="nav">
-        <a href="index.html" class="btn">الرئيسية</a>
-        <a href="my_id.html" class="btn">هويتي</a>
-        <a href="create_id.html" class="btn">إنشاء هوية</a>
-        <a href="admin.html" class="btn">المسؤولين</a>
-    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+            <li><a href="my_id.html" class="nav-link">هويتي</a></li>
+            <li><a href="create_id.html" class="nav-link">إنشاء هوية</a></li>
+            <li><a href="admin.html" class="nav-link active">لوحة المسؤولين</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-        <div id="loginForm" class="login-form">
-            <h2>تسجيل الدخول للمسؤولين</h2>
-            <div id="adminError"></div>
-            <div class="form-group">
-                <label for="adminUsername">اسم المستخدم:</label>
-                <input type="text" id="adminUsername" required>
-            </div>
-            <div class="form-group">
-                <label for="adminPassword">كلمة المرور:</label>
-                <input type="password" id="adminPassword" required>
-            </div>
-            <button id="loginBtn" class="btn">دخول</button>
-        </div>
+    <main class="main-content">
+        <section id="loginSection" class="login-section">
+            <h2>تسجيل دخول المسؤولين</h2>
+            <form id="adminLoginForm" class="admin-form">
+                <div id="loginMessages" class="form-messages"></div>
 
-        <div id="adminPanel" class="admin-panel">
-            <h2>مرحباً بك في لوحة التحكم</h2>
-            <div id="adminInfo"></div>
-            
-            <div class="admin-section">
-                <h3>طلبات الهويات الجديدة</h3>
-                <div id="pendingRequests"></div>
-            </div>
-            
-            <div class="admin-section">
-                <h3>إدارة الهويات</h3>
-                <div class="admin-actions">
-                    <button id="viewIdsBtn" class="btn">عرض جميع الهويات</button>
-                    <button id="manageIdsBtn" class="btn">إدارة الهويات</button>
+                <div class="form-group">
+                    <label for="adminUsername">اسم المستخدم:</label>
+                    <input type="text" id="adminUsername" required>
                 </div>
-                <div id="idsList"></div>
+
+                <div class="form-group">
+                    <label for="adminPassword">كلمة المرور:</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">دخول</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h2>مرحباً، <span id="adminName"></span></h2>
+                <button id="logoutBtn" class="logout-btn">تسجيل خروج</button>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="pending">طلبات معلقة</button>
+                <button class="tab-btn" data-tab="approved">الهويات المعتمدة</button>
+                <button class="tab-btn" data-tab="rejected">طلبات مرفوضة</button>
+            </div>
+
+            <div class="tab-content active" id="pendingTab">
+                <h3>طلبات الهويات المعلقة</h3>
+                <div id="pendingRequests" class="requests-container"></div>
+            </div>
+
+            <div class="tab-content" id="approvedTab">
+                <h3>الهويات المعتمدة</h3>
+                <div id="approvedIds" class="ids-container"></div>
+            </div>
+
+            <div class="tab-content" id="rejectedTab">
+                <h3>الطلبات المرفوضة</h3>
+                <div id="rejectedRequests" class="requests-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="actionModal" class="modal">
+        <div class="modal-content">
+            <h3 id="actionModalTitle"></h3>
+            <div id="actionModalBody"></div>
+            <div class="modal-actions">
+                <button id="confirmActionBtn" class="modal-btn confirm-btn">تأكيد</button>
+                <button id="cancelActionBtn" class="modal-btn cancel-btn">إلغاء</button>
             </div>
         </div>
     </div>
 
-    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
-    <script src="admin.js"></script>
+    <footer class="main-footer">
+        <p>جميع الحقوق محفوظة &copy; <span id="current-year"></span> FalcoN LiFe</p>
+    </footer>
+
+    <script src="js/admin.js"></script>
 </body>
 </html>
