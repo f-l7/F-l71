@@ -4,147 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة المسؤولين - FalcoN LiFe</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #2ecc71;
-            color: #fff;
-        }
-        header {
-            background-color: white;
-            color: #2ecc71;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .login-form {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn {
-            display: inline-block;
-            background-color: white;
-            color: #2ecc71;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 10px 0;
-            border: none;
-            cursor: pointer;
-        }
-        .admin-panel {
-            display: none;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .admin-section {
-            margin-bottom: 30px;
-        }
-        .admin-section h2 {
-            border-bottom: 2px solid white;
-            padding-bottom: 10px;
-        }
-        .online-users {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .user-card {
-            background-color: white;
-            color: #2ecc71;
-            padding: 10px;
-            border-radius: 5px;
-            min-width: 150px;
-        }
-        .id-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        .id-card {
-            background-color: white;
-            color: #2ecc71;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .id-actions {
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-        }
-        .btn-edit {
-            background-color: #3498db;
-            color: white;
-        }
-        .btn-delete {
-            background-color: #e74c3c;
-            color: white;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: white;
-            color: #2ecc71;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 90%;
-        }
-        .form-edit {
-            margin-top: 15px;
-        }
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        footer {
-            background-color: white;
-            color: #2ecc71;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -153,7 +13,7 @@
     </header>
 
     <div class="nav">
-        <a href="index.html" class="btn">الصفحة الرئيسية</a>
+        <a href="index.html" class="btn">الرئيسية</a>
         <a href="my_id.html" class="btn">هويتي</a>
         <a href="create_id.html" class="btn">إنشاء هوية</a>
         <a href="admin.html" class="btn">المسؤولين</a>
@@ -162,6 +22,7 @@
     <div class="container">
         <div id="loginForm" class="login-form">
             <h2>تسجيل الدخول للمسؤولين</h2>
+            <div id="adminError"></div>
             <div class="form-group">
                 <label for="adminUsername">اسم المستخدم:</label>
                 <input type="text" id="adminUsername" required>
@@ -175,308 +36,25 @@
 
         <div id="adminPanel" class="admin-panel">
             <h2>مرحباً بك في لوحة التحكم</h2>
-            <p id="adminDiscordInfo"></p>
-
+            <div id="adminInfo"></div>
+            
             <div class="admin-section">
-                <h3>الأعضاء المتصلين</h3>
-                <div id="onlineUsers" class="online-users">
-                    <!-- سيتم ملؤها بواسطة JavaScript -->
-                </div>
+                <h3>طلبات الهويات الجديدة</h3>
+                <div id="pendingRequests"></div>
             </div>
-
+            
             <div class="admin-section">
                 <h3>إدارة الهويات</h3>
-                <div class="id-actions">
+                <div class="admin-actions">
                     <button id="viewIdsBtn" class="btn">عرض جميع الهويات</button>
-                    <button id="deleteIdBtn" class="btn btn-delete">حذف هوية</button>
-                    <button id="editIdsBtn" class="btn btn-edit">تعديل الهويات</button>
+                    <button id="manageIdsBtn" class="btn">إدارة الهويات</button>
                 </div>
-
-                <div id="deleteIdForm" style="display: none; margin-top: 15px;">
-                    <div class="form-group">
-                        <label for="idToDelete">رقم الهوية للحذف:</label>
-                        <input type="text" id="idToDelete">
-                    </div>
-                    <div class="form-group">
-                        <label for="deleteReason">سبب الحذف:</label>
-                        <input type="text" id="deleteReason" required>
-                    </div>
-                    <button id="confirmDeleteBtn" class="btn btn-delete">تأكيد الحذف</button>
-                </div>
-
-                <div id="idsList" class="id-list" style="display: none; margin-top: 15px;">
-                    <!-- سيتم ملؤها بواسطة JavaScript -->
-                </div>
+                <div id="idsList"></div>
             </div>
         </div>
     </div>
 
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <h2>تعديل الهوية</h2>
-            <div id="editIdContent"></div>
-            <form id="editIdForm" class="form-edit">
-                <input type="hidden" id="editIdNumber">
-                <div class="form-group">
-                    <label for="editUsername">الاسم:</label>
-                    <input type="text" id="editUsername" required>
-                </div>
-                <button type="submit" class="btn">حفظ التعديلات</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe
-    </footer>
-
-    <script>
-        // كلمة مرور المسؤولين (يمكن تغييرها)
-        const ADMIN_PASSWORD = "admin123";
-        
-        // عناصر DOM
-        const loginForm = document.getElementById('loginForm');
-        const adminPanel = document.getElementById('adminPanel');
-        const adminUsername = document.getElementById('adminUsername');
-        const adminPassword = document.getElementById('adminPassword');
-        const loginBtn = document.getElementById('loginBtn');
-        const adminDiscordInfo = document.getElementById('adminDiscordInfo');
-        const onlineUsers = document.getElementById('onlineUsers');
-        const viewIdsBtn = document.getElementById('viewIdsBtn');
-        const deleteIdBtn = document.getElementById('deleteIdBtn');
-        const editIdsBtn = document.getElementById('editIdsBtn');
-        const deleteIdForm = document.getElementById('deleteIdForm');
-        const idsList = document.getElementById('idsList');
-        const idToDelete = document.getElementById('idToDelete');
-        const deleteReason = document.getElementById('deleteReason');
-        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-        const editModal = document.getElementById('editModal');
-        const editIdContent = document.getElementById('editIdContent');
-        const editIdForm = document.getElementById('editIdForm');
-        const editIdNumber = document.getElementById('editIdNumber');
-        const editUsername = document.getElementById('editUsername');
-
-        // بيانات وهمية للعرض (في الواقع الفعلي سيتم جلبها من الخادم)
-        let allIds = [];
-        let onlineUsersData = [];
-
-        // تسجيل الدخول للمسؤولين
-        loginBtn.addEventListener('click', function() {
-            if(adminPassword.value === ADMIN_PASSWORD) {
-                loginForm.style.display = 'none';
-                adminPanel.style.display = 'block';
-                
-                // جلب معلومات المسؤول من ديسكورد
-                fetch('/api/admin_info')
-                    .then(response => response.json())
-                    .then(data => {
-                        adminDiscordInfo.textContent = `مرحباً ${data.username} (${data.discord})`;
-                        onlineUsersData = data.onlineUsers;
-                        updateOnlineUsers();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        adminDiscordInfo.textContent = `مرحباً ${adminUsername.value}`;
-                    });
-            } else {
-                alert('كلمة المرور غير صحيحة');
-            }
-        });
-
-        // تحديث قائمة المتصلين
-        function updateOnlineUsers() {
-            onlineUsers.innerHTML = '';
-            onlineUsersData.forEach(user => {
-                const userCard = document.createElement('div');
-                userCard.className = 'user-card';
-                userCard.innerHTML = `
-                    <div><strong>${user.username}</strong></div>
-                    <div>${user.discord}</div>
-                `;
-                onlineUsers.appendChild(userCard);
-            });
-        }
-
-        // عرض جميع الهويات
-        viewIdsBtn.addEventListener('click', function() {
-            if(idsList.style.display === 'none') {
-                fetch('/api/all_ids')
-                    .then(response => response.json())
-                    .then(data => {
-                        allIds = data;
-                        renderIdsList();
-                        idsList.style.display = 'grid';
-                        deleteIdForm.style.display = 'none';
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('حدث خطأ أثناء جلب بيانات الهويات');
-                    });
-            } else {
-                idsList.style.display = 'none';
-            }
-        });
-
-        // عرض نموذج حذف الهوية
-        deleteIdBtn.addEventListener('click', function() {
-            if(deleteIdForm.style.display === 'none') {
-                deleteIdForm.style.display = 'block';
-                idsList.style.display = 'none';
-            } else {
-                deleteIdForm.style.display = 'none';
-            }
-        });
-
-        // تأكيد حذف الهوية
-        confirmDeleteBtn.addEventListener('click', function() {
-            const idNumber = idToDelete.value;
-            const reason = deleteReason.value;
-            
-            if(!idNumber || !reason) {
-                alert('يرجى إدخال رقم الهوية وسبب الحذف');
-                return;
-            }
-            
-            fetch('/api/delete_id', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ idNumber, reason }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    alert('تم حذف الهوية بنجاح');
-                    idToDelete.value = '';
-                    deleteReason.value = '';
-                    deleteIdForm.style.display = 'none';
-                    
-                    // تحديث القائمة
-                    allIds = allIds.filter(id => id.idNumber !== idNumber);
-                    renderIdsList();
-                } else {
-                    alert('حدث خطأ أثناء حذف الهوية: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('حدث خطأ أثناء حذف الهوية');
-            });
-        });
-
-        // عرض نموذج تعديل الهويات
-        editIdsBtn.addEventListener('click', function() {
-            if(idsList.style.display === 'none') {
-                fetch('/api/all_ids')
-                    .then(response => response.json())
-                    .then(data => {
-                        allIds = data;
-                        renderIdsList(true);
-                        idsList.style.display = 'grid';
-                        deleteIdForm.style.display = 'none';
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('حدث خطأ أثناء جلب بيانات الهويات');
-                    });
-            } else {
-                idsList.style.display = 'none';
-            }
-        });
-
-        // عرض قائمة الهويات
-        function renderIdsList(showEditButtons = false) {
-            idsList.innerHTML = '';
-            
-            allIds.forEach(id => {
-                const idCard = document.createElement('div');
-                idCard.className = 'id-card';
-                
-                let cardContent = `
-                    <div><strong>رقم الهوية:</strong> ${id.idNumber}</div>
-                    <div><strong>الاسم:</strong> ${id.username}</div>
-                    <div><strong>ايدي ديسكورد:</strong> ${id.discord}</div>
-                    <div><strong>تاريخ الميلاد:</strong> ${id.birthdate}</div>
-                    <div><strong>العمر:</strong> ${id.age}</div>
-                    <div><strong>البلد:</strong> ${id.country}</div>
-                `;
-                
-                if(showEditButtons) {
-                    cardContent += `
-                        <div class="id-actions">
-                            <button onclick="openEditModal('${id.idNumber}')" class="btn btn-edit">تعديل</button>
-                        </div>
-                    `;
-                }
-                
-                idCard.innerHTML = cardContent;
-                idsList.appendChild(idCard);
-            });
-        }
-
-        // فتح نموذج التعديل
-        window.openEditModal = function(idNumber) {
-            const id = allIds.find(id => id.idNumber === idNumber);
-            
-            if(id) {
-                editIdNumber.value = id.idNumber;
-                editUsername.value = id.username;
-                
-                editIdContent.innerHTML = `
-                    <div><strong>رقم الهوية:</strong> ${id.idNumber}</div>
-                    <div><strong>ايدي ديسكورد:</strong> ${id.discord}</div>
-                    <div><strong>تاريخ الميلاد:</strong> ${id.birthdate}</div>
-                    <div><strong>العمر:</strong> ${id.age}</div>
-                    <div><strong>البلد:</strong> ${id.country}</div>
-                `;
-                
-                editModal.style.display = 'flex';
-            }
-        };
-
-        // حفظ التعديلات
-        editIdForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const idNumber = editIdNumber.value;
-            const newUsername = editUsername.value;
-            
-            fetch('/api/update_id', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ idNumber, username: newUsername }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    alert('تم تحديث الهوية بنجاح');
-                    editModal.style.display = 'none';
-                    
-                    // تحديث القائمة
-                    const updatedId = allIds.find(id => id.idNumber === idNumber);
-                    if(updatedId) {
-                        updatedId.username = newUsername;
-                        renderIdsList(true);
-                    }
-                } else {
-                    alert('حدث خطأ أثناء تحديث الهوية: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('حدث خطأ أثناء تحديث الهوية');
-            });
-        });
-
-        // إغلاق النموذج عند النقر خارج المحتوى
-        editModal.addEventListener('click', function(e) {
-            if(e.target === editModal) {
-                editModal.style.display = 'none';
-            }
-        });
-    </script>
+    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
+    <script src="admin.js"></script>
 </body>
 </html>
