@@ -3,64 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء هوية - FalcoN LiFe</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>إنشاء هوية جديدة - FalcoN LiFe</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>إنشاء هوية جديدة</h1>
-        <p>بواسطة FalcoN LiFe</p>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>إنشاء هوية جديدة</h1>
+            <p>بواسطة FalcoN LiFe</p>
+        </div>
     </header>
 
-    <div class="nav">
-        <a href="index.html" class="btn">الرئيسية</a>
-        <a href="my_id.html" class="btn">هويتي</a>
-        <a href="create_id.html" class="btn">إنشاء هوية</a>
-        <a href="admin.html" class="btn">المسؤولين</a>
-    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+            <li><a href="my_id.html" class="nav-link">هويتي</a></li>
+            <li><a href="create_id.html" class="nav-link active">إنشاء هوية</a></li>
+            <li><a href="admin.html" class="nav-link">لوحة المسؤولين</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-        <form id="idForm">
-            <div id="errorContainer"></div>
-            
-            <div class="form-group">
-                <label for="username">اسمك (بالرول):</label>
-                <input type="text" id="username" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="discord">ايديك ديسكورد:</label>
-                <input type="text" id="discord" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="birthdate">تاريخ ميلاد (بالرول):</label>
-                <input type="date" id="birthdate" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="age">عمرك (بالرول):</label>
-                <input type="number" id="age" min="10" max="100" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="country">البلد (بالرول):</label>
-                <input type="text" id="country" required>
-            </div>
-            
-            <button type="submit" class="btn" id="submitBtn">إنشاء هوية</button>
-        </form>
-    </div>
+    <main class="main-content">
+        <section class="form-section">
+            <form id="identityForm" class="identity-form">
+                <div class="form-header">
+                    <h2>معلومات الهوية</h2>
+                </div>
 
-    <div id="waitingModal" class="modal">
+                <div id="formMessages" class="form-messages"></div>
+
+                <div class="form-group">
+                    <label for="username">اسمك (بالرول):</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="discord">ايدي ديسكورد:</label>
+                    <input type="text" id="discord" placeholder="اسم المستخدم#1234" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="birthdate">تاريخ الميلاد:</label>
+                    <input type="date" id="birthdate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">العمر:</label>
+                    <input type="number" id="age" min="10" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">البلد:</label>
+                    <input type="text" id="country" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">إنشاء الهوية</span>
+                        <span class="spinner" id="formSpinner"></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <div id="resultModal" class="modal">
         <div class="modal-content">
-            <h2>انتظر حتى يتم قبول طلبك</h2>
-            <p>تم إرسال طلب إنشاء الهوية بنجاح.</p>
-            <button id="closeModal" class="btn">إغلاق</button>
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+            <button id="modalCloseBtn" class="modal-btn">حسناً</button>
         </div>
     </div>
 
-    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
-    <script src="create_id.js"></script>
+    <footer class="main-footer">
+        <p>جميع الحقوق محفوظة &copy; <span id="current-year"></span> FalcoN LiFe</p>
+    </footer>
+
+    <script src="js/create_id.js"></script>
 </body>
 </html>
