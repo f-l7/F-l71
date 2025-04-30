@@ -4,73 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>هويتي - FalcoN LiFe</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #2ecc71;
-            color: #fff;
-        }
-        header {
-            background-color: white;
-            color: #2ecc71;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .id-card {
-            background-color: white;
-            color: #2ecc71;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .id-info {
-            margin-bottom: 10px;
-        }
-        .id-label {
-            font-weight: bold;
-        }
-        .btn {
-            display: inline-block;
-            background-color: white;
-            color: #2ecc71;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        footer {
-            background-color: white;
-            color: #2ecc71;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .status-pending {
-            color: orange;
-        }
-        .status-approved {
-            color: green;
-        }
-        .status-rejected {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -79,7 +13,7 @@
     </header>
 
     <div class="nav">
-        <a href="index.html" class="btn">الصفحة الرئيسية</a>
+        <a href="index.html" class="btn">الرئيسية</a>
         <a href="my_id.html" class="btn">هويتي</a>
         <a href="create_id.html" class="btn">إنشاء هوية</a>
         <a href="admin.html" class="btn">المسؤولين</a>
@@ -89,62 +23,12 @@
         <div id="idCard" class="id-card">
             <h2>معلومات الهوية</h2>
             <div id="idContent">
-                <!-- سيتم ملؤها بواسطة JavaScript -->
                 <p>جاري تحميل معلومات الهوية...</p>
             </div>
         </div>
     </div>
 
-    <footer>
-        جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe
-    </footer>
-
-    <script>
-        // جلب معلومات الهوية من الخادم
-        function fetchIdData() {
-            // في الواقع الفعلي، سيتم جلب البيانات بناء على المعرف الحالي للمستخدم
-            fetch('/api/my_id')
-                .then(response => response.json())
-                .then(data => {
-                    const idContent = document.getElementById('idContent');
-                    
-                    if(data.hasId) {
-                        let statusClass = '';
-                        let statusText = '';
-                        
-                        if(data.status === 'pending') {
-                            statusClass = 'status-pending';
-                            statusText = 'قيد المراجعة';
-                        } else if(data.status === 'approved') {
-                            statusClass = 'status-approved';
-                            statusText = 'مقبولة';
-                        } else if(data.status === 'rejected') {
-                            statusClass = 'status-rejected';
-                            statusText = 'مرفوضة';
-                        }
-                        
-                        idContent.innerHTML = `
-                            <div class="id-info"><span class="id-label">رقم الهوية:</span> ${data.idNumber || '---'}</div>
-                            <div class="id-info"><span class="id-label">الاسم:</span> ${data.username}</div>
-                            <div class="id-info"><span class="id-label">ايدي ديسكورد:</span> ${data.discord}</div>
-                            <div class="id-info"><span class="id-label">تاريخ الميلاد:</span> ${data.birthdate}</div>
-                            <div class="id-info"><span class="id-label">العمر:</span> ${data.age}</div>
-                            <div class="id-info"><span class="id-label">البلد:</span> ${data.country}</div>
-                            <div class="id-info"><span class="id-label">الحالة:</span> <span class="${statusClass}">${statusText}</span></div>
-                            ${data.reason ? `<div class="id-info"><span class="id-label">السبب:</span> ${data.reason}</div>` : ''}
-                        `;
-                    } else {
-                        idContent.innerHTML = '<p>ليس لديك هوية مسجلة بعد. <a href="create_id.html">اضغط هنا لإنشاء هوية جديدة</a></p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('idContent').innerHTML = '<p>حدث خطأ أثناء جلب بيانات الهوية. يرجى المحاولة لاحقاً.</p>';
-                });
-        }
-
-        // جلب البيانات عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', fetchIdData);
-    </script>
+    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
+    <script src="my_id.js"></script>
 </body>
 </html>
