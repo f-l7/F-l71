@@ -1,62 +1,173 @@
 document.addEventListener('DOMContentLoaded', function() {
     const idContent = document.getElementById('idContent');
+    const idStatus = document.getElementById('idStatus');
     
-    // في الواقع الفعلي، سيتم الحصول على معرف الديسكورد من نظام المصادقة
-    const discordId = "current_user_discord_id"; 
+    // محاكاة بيانات المستخدم (في الواقع سيتم جلبها من الخادم)
+    const userId = "user123";
     
-    fetchIdData(discordId);
+    loadIdentity(userId);
 
-    async function fetchIdData(discordId) {
-        idContent.innerHTML = '<p>جاري تحميل معلومات الهوية...</p>';
+    async function loadIdentity(userId) {
+        showLoading();
         
         try {
-            const response = await fetch(`/api/my_id?discord=${discordId}`);
-            const data = await response.json();
+            const identity = await fetchIdentity(userId);
             
-            if(!response.ok) {
-                throw new Error(data.message || 'حدث خطأ في الخادم');
-            }
-            
-            if(data.error) {
-                showError(data.message);
+            if(identity.error) {
+                showError(identity.message);
                 return;
             }
             
-            if(data.hasId) {
-                renderIdCard(data);
-            } else {
-                showNoIdMessage(data.message);
+            if(!identity.exists) {
+                showNoIdentity();
+                return;
             }
+            
+            renderIdentity(identity);
         } catch (error) {
-            showError(error.message);
             console.error('Error:', error);
+            showError('حدث خطأ في جلب بيانات الهوية');
         }
     }
 
-    function renderIdCard(data) {
+    function renderIdentity(data) {
+        let statusText = '';
+        let statusClass = '';
+        
+        switch(data.status) {
+            case 'approved':
+                statusText = 'معتمدة';
+                statusClass = 'approved';
+                break;
+            case 'pending':
+                statusText = 'قيد المراجعة';
+                statusClass = 'pending';
+                break;
+            case 'rejected':
+                statusText = `مرفوضة${data.reason ? ': ' + data.reason : ''}`;
+                statusClass = 'rejected';
+                break;
+            default:
+                statusText = 'غير معروفة';
+                statusClass = 'unknown';
+        }
+        
+        idStatus.innerHTML = `<span class="${statusClass}">${statusText}</span>`;
+        
         idContent.innerHTML = `
-            <div class="id-info"><span class="id-label">رقم الهوية:</span> ${data.idNumber || '---'}</div>
-            <div class="id-info"><span class="id-label">الاسم:</span> ${data.username}</div>
-            <div class="id-info"><span class="id-label">ايدي ديسكورد:</span> ${data.discord}</div>
-            <div class="id-info"><span class="id-label">تاريخ الميلاد:</span> ${data.birthdate}</div>
-            <div class="id-info"><span class="id-label">العمر:</span> ${data.age}</div>
-            <div class="id-info"><span class="id-label">البلد:</span> ${data.country}</div>
-            ${data.status === 'rejected' ? `<div class="error-message">تم رفض طلبك: ${data.reason || 'لا يوجد سبب محدد'}</div>` : ''}
-            ${data.status === 'pending' ? `<div class="pending-message">طلبك قيد المراجعة</div>` : ''}
+            <div class="identity-info">
+                <div class="info-row">
+                    <span class="info-label">رقم الهوية:</span>
+                    <span class="info-value">${data.idNumber || '---'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">الاسم:</span>
+                    <span class="info-value">${data.username}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">ايدي ديسكورد:</span>
+                    <span class="info-value">${data.discord}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">تاريخ الميلاد:</span>
+                    <span class="info-value">${data.birthdate}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">العمر:</span>
+                    <span class="info-value">${data.age}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">البلد:</span>
+                    <span class="info-value">${data.country}</span>
+                </div>
+            </div>
+            
+            ${data.status === 'rejected' ? `
+            <div class="identity-actions">
+                <a href="create_id.html" class="action-btn">تقديم طلب جديد</a>
+            </div>
+            ` : ''}
         `;
     }
 
-    function showNoIdMessage(message) {
+    function showNoIdentity() {
         idContent.innerHTML = `
-            <div class="info-message">${message || 'ليس لديك هوية مسجلة بعد'}</div>
-            <a href="create_id.html" class="btn">إنشاء هوية جديدة</a>
+            <div class="no-identity">
+                <p>ليس لديك هوية مسجلة بعد</p>
+                <a href="create_id.html" class="action-btn">إنشاء هوية جديدة</a>
+            </div>
         `;
     }
 
     function showError(message) {
         idContent.innerHTML = `
-            <div class="error-message">${message || 'حدث خطأ أثناء جلب بيانات الهوية'}</div>
-            <button onclick="location.reload()" class="btn">إعادة المحاولة</button>
+            <div class="error-message">
+                <p>${message}</p>
+                <button class="retry-btn" onclick="location.reload()">إعادة المحاولة</button>
+            </div>
         `;
+    }
+
+    function showLoading() {
+        idContent.innerHTML = `
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>جاري تحميل معلومات الهوية...</p>
+            </div>
+        `;
+    }
+
+    async function fetchIdentity(userId) {
+        // محاكاة اتصال بالخادم
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // اختر أي سيناريو تريد تجربته:
+        
+        // 1. هوية معتمدة
+        return {
+            exists: true,
+            idNumber: 'ID-2023-001',
+            username: 'اسم المستخدم',
+            discord: 'User#1234',
+            birthdate: '01/01/2000',
+            age: 23,
+            country: 'السعودية',
+            status: 'approved'
+        };
+        
+        // 2. هوية قيد المراجعة
+        // return {
+        //     exists: true,
+        //     username: 'اسم المستخدم',
+        //     discord: 'User#1234',
+        //     birthdate: '01/01/2000',
+        //     age: 23,
+        //     country: 'السعودية',
+        //     status: 'pending'
+        // };
+        
+        // 3. هوية مرفوضة
+        // return {
+        //     exists: true,
+        //     username: 'اسم المستخدم',
+        //     discord: 'User#1234',
+        //     birthdate: '01/01/2000',
+        //     age: 23,
+        //     country: 'السعودية',
+        //     status: 'rejected',
+        //     reason: 'معلومات غير كافية'
+        // };
+        
+        // 4. لا يوجد هوية
+        // return {
+        //     exists: false,
+        //     message: 'ليس لديك هوية مسجلة بعد'
+        // };
+        
+        // 5. خطأ في الخادم
+        // return {
+        //     error: true,
+        //     message: 'حدث خطأ في الخادم'
+        // };
     }
 });
