@@ -1,8 +1,8 @@
 module.exports = {
-    ADMIN_USERNAME: "admin",
+    ADMIN_USERNAME: "faladmin",
     ADMIN_PASSWORD: "admin123",
     PORT: 3000,
-    SESSION_SECRET: "your_secret_key_here",
-    DISCORD_BOT_TOKEN: "your_discord_bot_token_here",
-    DISCORD_ADMIN_CHANNEL: "your_admin_channel_id_here"
+    SESSION_SECRET: "UrPFhHolsJiby7BKn7YRfy-Ex0hJQaXc",
+    DISCORD_BOT_TOKEN: "MTM2NTc0MTUyODM3ODc3MzYyNg.GyAuBY.1Kf5959SdL6pE_fu6MD9FV57hguChMdpiIA56Q",
+    DISCORD_ADMIN_CHANNEL: "1366185461898416210"
 };
