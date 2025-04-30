@@ -3,53 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalcoN LiFe - نظام الهويات</title>
-    <link rel="stylesheet" href="style.css">
+    <title>هوية ديسكورد - FalcoN LiFe</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 0; background-color: #2ecc71; color: #fff; }
+        header { background-color: white; color: #2ecc71; padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .content { background-color: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .btn { background-color: white; color: #2ecc71; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 10px 0; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        footer { background-color: white; color: #2ecc71; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+    </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- الجزء الأبيض العلوي -->
-        <header class="white-header">
-            <img src="logo.png" alt="FalcoN LiFe" class="logo">
-            <h1>نظام الهوية الرقمية</h1>
-        </header>
+    <header>
+        <h1>نظام الهوية الديسكوردية</h1>
+        <p>بواسطة FalcoN LiFe</p>
+    </header>
 
-        <!-- الجزء الأخضر مع النص الأبيض -->
-        <section class="green-section">
-            <div class="content">
-                <h2>مرحباً بكم في نظام FalcoN LiFe</h2>
-                <div class="long-text">
-                    <p>نظام الهوية الرقمية من FalcoN LiFe هو الحل الأمثل لإدارة الهويات بشكل آمن وفعال. تأسس هذا النظام عام 2023 بهدف توفير خدمة مميزة للمواطنين والمقيمين في المملكة العربية السعودية ودول الخليج العربي.</p>
-                    
-                    <h3>لماذا نختار FalcoN LiFe؟</h3>
-                    <p>لأننا نقدم حلولاً متكاملة تتميز بما يلي:</p>
-                    <ul>
-                        <li>تشفير متقدم بمعايير AES-256</li>
-                        <li>سرعة في إنهاء المعاملات</li>
-                        <li>توافق كامل مع الأجهزة الذكية</li>
-                        <li>دعم فني على مدار الساعة</li>
-                    </ul>
-
-                    <h3>كيفية الاستخدام:</h3>
-                    <ol>
-                        <li>قم بملء استمارة الهوية</li>
-                        <li>انتظر الموافقة من المسؤول</li>
-                        <li>استلم هويتك الرقمية</li>
-                    </ol>
-                </div>
-                <a href="identity.html" class="cta-button">إنشاء هوية جديدة</a>
-            </div>
-        </section>
-
-        <!-- الفوتر -->
-        <footer>
-            <p>© <span id="current-year"></span> جميع الحقوق محفوظة لـ FalcoN LiFe</p>
-        </footer>
+    <div class="nav">
+        <a href="index.html" class="btn">الرئيسية</a>
+        <a href="my_id.html" class="btn">هويتي</a>
+        <a href="create_id.html" class="btn">إنشاء هوية</a>
+        <a href="admin.html" class="btn">المسؤولين</a>
     </div>
 
-    <script>
-        // عرض السنة الحالية
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
+    <div class="container">
+        <div class="content">
+            <h2>مرحباً بكم في نظام الهوية الديسكوردية</h2>
+            <p>هذا النظام مصمم لإنشاء هويات رسمية لأعضاء سيرفر ديسكورد.</p>
+        </div>
+    </div>
+
+    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
 </body>
 </html>
