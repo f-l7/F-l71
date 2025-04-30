@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المسؤولين - FalcoN LiFe</title>
+    <style>
+        body { font-family: Arial; margin: 0; padding: 0; background-color: #2ecc71; color: #fff; }
+        header { background-color: white; color: #2ecc71; padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .login-form { max-width: 400px; margin: 0 auto; background-color: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; border: none; border-radius: 5px; }
+        .btn { background-color: white; color: #2ecc71; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin: 10px 0; border: none; cursor: pointer; }
+        .admin-panel { display: none; background-color: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        footer { background-color: white; color: #2ecc71; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>لوحة المسؤولين</h1>
+        <p>بواسطة FalcoN LiFe</p>
+    </header>
+
+    <div class="nav">
+        <a href="index.html" class="btn">الرئيسية</a>
+        <a href="my_id.html" class="btn">هويتي</a>
+        <a href="create_id.html" class="btn">إنشاء هوية</a>
+        <a href="admin.html" class="btn">المسؤولين</a>
+    </div>
+
+    <div class="container">
+        <div id="loginForm" class="login-form">
+            <h2>تسجيل الدخول للمسؤولين</h2>
+            <div class="form-group">
+                <label for="adminUsername">اسم المستخدم:</label>
+                <input type="text" id="adminUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">كلمة المرور:</label>
+                <input type="password" id="adminPassword" required>
+            </div>
+            <button id="loginBtn" class="btn">دخول</button>
+        </div>
+
+        <div id="adminPanel" class="admin-panel">
+            <h2>مرحباً بك في لوحة التحكم</h2>
+            <p>هنا يمكنك إدارة طلبات الهويات</p>
+        </div>
+    </div>
+
+    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
+
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const password = document.getElementById('adminPassword').value;
+            if(password === "admin123") {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+            } else {
+                alert('كلمة المرور غير صحيحة');
+            }
+        });
+    </script>
+</body>
+</html>
