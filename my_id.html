@@ -3,32 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هويتي - FalcoN LiFe</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>هويتي الديسكوردية - FalcoN LiFe</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>هويتي الديسكوردية</h1>
-        <p>بواسطة FalcoN LiFe</p>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>هويتي الديسكوردية</h1>
+            <p>بواسطة FalcoN LiFe</p>
+        </div>
     </header>
 
-    <div class="nav">
-        <a href="index.html" class="btn">الرئيسية</a>
-        <a href="my_id.html" class="btn">هويتي</a>
-        <a href="create_id.html" class="btn">إنشاء هوية</a>
-        <a href="admin.html" class="btn">المسؤولين</a>
-    </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+            <li><a href="my_id.html" class="nav-link active">هويتي</a></li>
+            <li><a href="create_id.html" class="nav-link">إنشاء هوية</a></li>
+            <li><a href="admin.html" class="nav-link">لوحة المسؤولين</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-        <div id="idCard" class="id-card">
-            <h2>معلومات الهوية</h2>
-            <div id="idContent">
-                <p>جاري تحميل معلومات الهوية...</p>
+    <main class="main-content">
+        <section class="id-card-section">
+            <div class="id-card">
+                <div class="id-header">
+                    <h2>معلومات الهوية</h2>
+                    <div class="id-status" id="idStatus"></div>
+                </div>
+
+                <div id="idContent" class="id-content">
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>جاري تحميل معلومات الهوية...</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <footer>جميع الحقوق محفوظة &copy; 2023 FalcoN LiFe</footer>
-    <script src="my_id.js"></script>
+    <footer class="main-footer">
+        <p>جميع الحقوق محفوظة &copy; <span id="current-year"></span> FalcoN LiFe</p>
+    </footer>
+
+    <script src="js/my_id.js"></script>
 </body>
 </html>
